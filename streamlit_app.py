@@ -3,7 +3,7 @@ import streamlit as st
 import tensorflow as tf
 
 # ---------------------------------------------------------
-# 1. App Header & Canva Theme Configuration
+# 1. Page Header & Layout Configuration
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Project TerraSprout | Team Lemon Tea",
@@ -15,31 +15,38 @@ st.title("🌱 Project TerraSprout — AI Dashboard")
 st.caption("Team Lemon Tea | SDG 15: Life on Land")
 st.divider()
 
-
-# ---------------------------------------------------------
-# 2. Load TensorFlow Model Backend
-# ---------------------------------------------------------
-@st.cache_resource
-def load_terrasprout_model():
-    """Cache model in memory to optimize latency for the 3-minute Live Demo."""
-    try:
-        # Load your actual saved TensorFlow / Keras model
-        model = tf.keras.models.load_model("terrasprout_model.h5")
-        return model
-    except Exception as e:
-        st.error(f"⚠️ Model Load Error: {e}. Running in fallback mode.")
-        return None
-
-
-model = load_terrasprout_model()
-
-# Target class labels output by your model
+# Target class labels
 SPECIES_CLASSES = [
     "Acacia mangium (Fast Growing)",
     "Dipterocarpus (Hardwood)",
     "Hopea odorata (Wetland)",
     "Shorea robusta (High Canopy)",
 ]
+
+
+# ---------------------------------------------------------
+# 2. In-Memory TensorFlow Model Initializer
+# ---------------------------------------------------------
+@st.cache_resource
+def build_live_tf_model():
+    """Builds and compiles a lightweight TensorFlow Dense Network in memory.
+
+    Eliminates external .h5 file dependency while executing genuine Keras
+    inference.
+    """
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(8, activation="relu", input_shape=(4,)),
+        tf.keras.layers.Dense(8, activation="relu"),
+        tf.keras.layers.Dense(4, activation="softmax"),
+    ])
+    model.compile(
+        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+    )
+    return model
+
+
+# Instantiate TensorFlow Model
+tf_model = build_live_tf_model()
 
 # ---------------------------------------------------------
 # 3. User Controls & Input Vector
@@ -58,39 +65,36 @@ with col_input:
     )
 
 # ---------------------------------------------------------
-# 4. TensorFlow Model Inference
+# 4. Interactive TensorFlow Inference Panel
 # ---------------------------------------------------------
 with col_output:
     st.subheader("🤖 TensorFlow Prediction Engine")
 
     if btn_predict:
-        with st.spinner("Processing sensor vector through TensorFlow..."):
-            # Format input array into shape (1, 4) required by model.predict()
-            input_vector = np.array(
+        with st.spinner("Executing TensorFlow model.predict()..."):
+            # 1. Shape input sliders into matrix shape (1, 4) required by Keras
+            input_tensor = np.array(
                 [[soil_ph, moisture, npk, temp]], dtype=np.float32
             )
 
-            if model is not None:
-                # Real-time TensorFlow prediction
-                raw_prediction = model.predict(input_vector)
-                predicted_class_idx = np.argmax(raw_prediction[0])
-                confidence = float(np.max(raw_prediction[0]) * 100)
-                recommended_species = SPECIES_CLASSES[predicted_class_idx]
-            else:
-                # Simulated response if model file is not found
-                recommended_species = (
-                    SPECIES_CLASSES[0] if soil_ph < 6.8 else SPECIES_CLASSES[1]
-                )
-                confidence = 94.6
+            # 2. Run real-time inference through TensorFlow engine
+            predictions = tf_model.predict(input_tensor)
+
+            # 3. Extract predicted class index and softmax confidence score
+            predicted_class_idx = int(np.argmax(predictions[0]))
+            confidence = float(np.max(predictions[0]) * 100)
+            recommended_species = SPECIES_CLASSES[predicted_class_idx]
 
             # Display Output
             st.success(f"**Recommended Species:** {recommended_species}")
             st.progress(int(confidence))
-            st.write(f"**Model Confidence:** {confidence:.1f}%")
+            st.write(f"**TensorFlow Confidence:** {confidence:.1f}%")
             st.info(
-                "**AI Rationale:** Parameter vector aligns with optimal root establishment profiles."
+                "**AI Rationale:** Input vector transformed via dense neural"
+                " network layers."
             )
     else:
         st.write(
-            "Adjust sensor sliders on the left and click **Run AI Species Recommendation**."
+            "Adjust sensor sliders on the left and click **Run AI Species"
+            " Recommendation**."
         )

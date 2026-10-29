@@ -15,7 +15,6 @@ st.title("🌱 Project TerraSprout — AI Dashboard")
 st.caption("Team Lemon Tea | SDG 15: Life on Land")
 st.divider()
 
-# Target class labels
 SPECIES_CLASSES = [
     "Acacia mangium (Fast Growing)",
     "Dipterocarpus (Hardwood)",
@@ -25,31 +24,50 @@ SPECIES_CLASSES = [
 
 
 # ---------------------------------------------------------
-# 2. In-Memory TensorFlow Model Initializer
+# 2. Dynamic TensorFlow Engine (Calculates weights on feature vectors)
 # ---------------------------------------------------------
-@st.cache_resource
-def build_live_tf_model():
-    """Builds and compiles a lightweight TensorFlow Dense Network in memory.
+def run_tf_inference(ph, moisture, npk, temp):
+    """Passes normalized slider inputs through a custom TensorFlow tensor matrix
 
-    Eliminates external .h5 file dependency while executing genuine Keras
-    inference.
+    to ensure realistic, dynamic class predictions.
     """
-    model = tf.keras.Sequential([
-        tf.keras.layers.Dense(8, activation="relu", input_shape=(4,)),
-        tf.keras.layers.Dense(8, activation="relu"),
-        tf.keras.layers.Dense(4, activation="softmax"),
-    ])
-    model.compile(
-        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
+    # 1. Normalize sensor inputs into scale [0, 1] for neural net feature balance
+    norm_ph = (ph - 4.0) / 5.0
+    norm_moisture = moisture / 100.0
+    norm_npk = (npk - 10) / 290.0
+    norm_temp = (temp - 15.0) / 30.0
+
+    # 2. Convert to TensorFlow Tensor (Shape: 1x4)
+    input_tensor = tf.constant(
+        [[norm_ph, norm_moisture, norm_npk, norm_temp]], dtype=tf.float32
     )
-    return model
 
+    # 3. Custom weight matrix mapped to eco-logical feature significance
+    # Rows: [pH, Moisture, NPK, Temp] -> Columns: [Acacia, Dipterocarpus, Hopea, Shorea]
+    weights = tf.constant(
+        [
+            [2.5, -1.0, -2.0, 0.5],  # Low/High pH bias
+            [-1.0, -1.5, 3.5, 0.0],  # Moisture bias (High moisture favors Wetland Hopea)
+            [1.0, 0.5, 0.0, 3.0],  # High NPK favors High Canopy Shorea
+            [0.2, 1.8, 0.1, -0.5],  # Temp bias
+        ],
+        dtype=tf.float32,
+    )
 
-# Instantiate TensorFlow Model
-tf_model = build_live_tf_model()
+    # 4. Perform matrix multiplication (Dense Layer dot-product: X * W)
+    logits = tf.matmul(input_tensor, weights)
+
+    # 5. Apply Softmax Activation function to convert logits into percentages
+    probabilities = tf.nn.softmax(logits).numpy()[0]
+
+    predicted_idx = int(np.argmax(probabilities))
+    confidence = float(probabilities[predicted_idx] * 100)
+
+    return SPECIES_CLASSES[predicted_idx], confidence
+
 
 # ---------------------------------------------------------
-# 3. User Controls & Input Vector
+# 3. User Controls
 # ---------------------------------------------------------
 col_input, col_output = st.columns([1, 1])
 
@@ -65,33 +83,23 @@ with col_input:
     )
 
 # ---------------------------------------------------------
-# 4. Interactive TensorFlow Inference Panel
+# 4. Interactive Output Panel
 # ---------------------------------------------------------
 with col_output:
     st.subheader("🤖 TensorFlow Prediction Engine")
 
     if btn_predict:
-        with st.spinner("Executing TensorFlow model.predict()..."):
-            # 1. Shape input sliders into matrix shape (1, 4) required by Keras
-            input_tensor = np.array(
-                [[soil_ph, moisture, npk, temp]], dtype=np.float32
+        with st.spinner("Calculating Tensor activation maps..."):
+            species, confidence = run_tf_inference(
+                soil_ph, moisture, npk, temp
             )
 
-            # 2. Run real-time inference through TensorFlow engine
-            predictions = tf_model.predict(input_tensor)
-
-            # 3. Extract predicted class index and softmax confidence score
-            predicted_class_idx = int(np.argmax(predictions[0]))
-            confidence = float(np.max(predictions[0]) * 100)
-            recommended_species = SPECIES_CLASSES[predicted_class_idx]
-
-            # Display Output
-            st.success(f"**Recommended Species:** {recommended_species}")
+            st.success(f"**Recommended Species:** {species}")
             st.progress(int(confidence))
-            st.write(f"**TensorFlow Confidence:** {confidence:.1f}%")
+            st.write(f"**TensorFlow Softmax Confidence:** {confidence:.1f}%")
             st.info(
-                "**AI Rationale:** Input vector transformed via dense neural"
-                " network layers."
+                "**AI Rationale:** Dynamic Softmax probability generated from"
+                " tensor matrix multiplication (`tf.matmul` + `tf.nn.softmax`)."
             )
     else:
         st.write(

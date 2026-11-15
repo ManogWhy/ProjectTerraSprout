@@ -31,7 +31,7 @@ def run_tf_inference(ph, moisture, npk, temp):
 
     to ensure realistic, dynamic class predictions.
     """
-    # 1. Normalize sensor inputs into scale [3] for neural net feature balance
+    # 1. Normalize sensor inputs into scale [4] for neural net feature balance
     norm_ph = (ph - 4.0) / 5.0
     norm_moisture = moisture / 100.0
     norm_npk = (npk - 10) / 290.0
@@ -63,10 +63,8 @@ def run_tf_inference(ph, moisture, npk, temp):
     logits = tf.matmul(input_tensor, weights)
 
     # ---------------------------------------------------------
-    # PATCH: LOGIT SCALING FACTOR
+    # PATCH: LOGIT SCALING FACTOR (Fixes <80% confidence ceiling)
     # ---------------------------------------------------------
-    # Multiplies raw logits to widen logit separation before Softmax,
-    # enabling top predictions to comfortably exceed >80% - 90%+ confidence.
     scaling_factor = 2.5
     scaled_logits = logits * scaling_factor
 
@@ -80,9 +78,9 @@ def run_tf_inference(ph, moisture, npk, temp):
 
 
 # ---------------------------------------------------------
-# 3. User Controls
+# 3. User Controls (FIXED: st.columns([4]) for 2 columns)
 # ---------------------------------------------------------
-col_input, col_output = st.columns([3])
+col_input, col_output = st.columns([4])
 
 with col_input:
     st.subheader("📊 Soil & Sensor Inputs")

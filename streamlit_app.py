@@ -31,7 +31,7 @@ def run_tf_inference(ph, moisture, npk, temp):
 
     to ensure realistic, dynamic class predictions.
     """
-    # 1. Normalize sensor inputs into scale [0, 1] for neural net feature balance
+    # 1. Normalize sensor inputs into scale [3] for neural net feature balance
     norm_ph = (ph - 4.0) / 5.0
     norm_moisture = moisture / 100.0
     norm_npk = (npk - 10) / 290.0
@@ -47,7 +47,12 @@ def run_tf_inference(ph, moisture, npk, temp):
     weights = tf.constant(
         [
             [2.5, -1.0, -2.0, 0.5],  # Low/High pH bias
-            [-1.0, -1.5, 3.5, 0.0],  # Moisture bias (High moisture favors Wetland Hopea)
+            [
+                -1.0,
+                -1.5,
+                3.5,
+                0.0,
+            ],  # Moisture bias (High moisture favors Wetland Hopea)
             [1.0, 0.5, 0.0, 3.0],  # High NPK favors High Canopy Shorea
             [0.2, 1.8, 0.1, -0.5],  # Temp bias
         ],
@@ -57,8 +62,16 @@ def run_tf_inference(ph, moisture, npk, temp):
     # 4. Perform matrix multiplication (Dense Layer dot-product: X * W)
     logits = tf.matmul(input_tensor, weights)
 
-    # 5. Apply Softmax Activation function to convert logits into percentages
-    probabilities = tf.nn.softmax(logits).numpy()[0]
+    # ---------------------------------------------------------
+    # PATCH: LOGIT SCALING FACTOR
+    # ---------------------------------------------------------
+    # Multiplies raw logits to widen logit separation before Softmax,
+    # enabling top predictions to comfortably exceed >80% - 90%+ confidence.
+    scaling_factor = 2.5
+    scaled_logits = logits * scaling_factor
+
+    # 5. Apply Softmax Activation function to convert scaled logits into percentages
+    probabilities = tf.nn.softmax(scaled_logits).numpy()
 
     predicted_idx = int(np.argmax(probabilities))
     confidence = float(probabilities[predicted_idx] * 100)
@@ -69,7 +82,7 @@ def run_tf_inference(ph, moisture, npk, temp):
 # ---------------------------------------------------------
 # 3. User Controls
 # ---------------------------------------------------------
-col_input, col_output = st.columns([1, 1])
+col_input, col_output = st.columns([3])
 
 with col_input:
     st.subheader("📊 Soil & Sensor Inputs")

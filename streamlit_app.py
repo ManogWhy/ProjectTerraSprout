@@ -13,10 +13,60 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
 # ---------------------------------------------------------
-# 2. Species Knowledge Base & Botanical SVG Artwork
+# 2. Shared Botanical SVG Helper for Hopea odorata
+# ---------------------------------------------------------
+def get_hopea_svg_art(
+    trunk_color="#134E52",
+    foliage_dark="#1D6F72",
+    foliage_mid="#2A9D8F",
+    foliage_light="#74C69D",
+    water_color="#48CAE4",
+    opacity=1.0,
+):
+    """Returns authentic Hopea odorata SVG elements (buttress roots, straight bole, layered conical-drooping crown)."""
+    return (
+        f'<g opacity="{opacity}">'
+        # Riparian water ripples at base
+        f'<path d="M16 146 Q70 138 124 146" stroke="{water_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
+        f'<path d="M28 153 Q70 147 112 153" stroke="{foliage_light}" stroke-width="2" stroke-linecap="round" fill="none"/>'
+        # Straight dipterocarp trunk with flared buttress roots
+        f'<path d="M54 142 C62 132, 64 112, 65 44 L75 44 C76 112, 78 132, 86 142 L74 142 L70 130 L66 142 Z" fill="{trunk_color}"/>'
+        # Upper ascending & outer drooping limbs
+        f'<path d="M68 88 Q46 84 32 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+        f'<path d="M72 88 Q94 84 108 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+        f'<path d="M68 64 Q50 60 40 72" stroke="{trunk_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
+        f'<path d="M72 64 Q90 60 100 72" stroke="{trunk_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
+        # Tier 1 (Lower wide skirt with drooping branch tips)
+        f'<path d="M22 104 C26 78, 48 72, 70 72 C92 72, 114 78, 118 104 C112 112, 104 108, 98 100 C90 106, 80 104, 70 98 C60 104, 50 106, 42 100 C36 108, 28 112, 22 104 Z" fill="{foliage_dark}"/>'
+        # Tier 2 (Middle conical-layered foliage)
+        f'<path d="M30 80 C34 54, 52 46, 70 46 C88 46, 106 54, 110 80 C104 86, 96 82, 90 76 C82 82, 76 80, 70 75 C64 80, 58 82, 50 76 C44 82, 36 86, 30 80 Z" fill="{foliage_mid}"/>'
+        # Tier 3 (Upper emergent crown)
+        f'<path d="M42 54 C46 30, 58 20, 70 18 C82 20, 94 30, 98 54 C92 60, 84 56, 78 50 C74 54, 66 54, 62 50 C56 56, 48 60, 42 54 Z" fill="{foliage_light}"/>'
+        f'</g>'
+    )
+
+
+# ---------------------------------------------------------
+# 3. Species Knowledge Base & Botanical SVG Artwork
 # ---------------------------------------------------------
 HERO_SVG = """<svg width="118" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="45" r="42" fill="#40916C" fill-opacity="0.32"/><circle cx="60" cy="45" r="32" stroke="#95D5B2" stroke-opacity="0.45" stroke-dasharray="4 4"/><path d="M35 72C35 55 48 45 60 45C72 45 85 55 85 72H35Z" fill="#95D5B2"/><path d="M60 68V28" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><path d="M60 42C60 42 42 40 40 25C54 24 60 35 60 42Z" fill="#B7E4C7"/><path d="M60 34C60 34 78 32 80 17C66 16 60 27 60 34Z" fill="#FFFFFF"/><circle cx="94" cy="22" r="4" fill="#B7E4C7"/><circle cx="26" cy="34" r="3" fill="#95D5B2"/></svg>"""
+
+# Matching Hopea odorata Card Icon using the exact same botanical tree function
+HOPEA_ICON_SVG = (
+    '<svg width="74" height="74" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    '<rect x="4" y="4" width="132" height="152" rx="34" fill="#164E52"/>'
+    + get_hopea_svg_art(
+        trunk_color="#D8F3DC",
+        foliage_dark="#40916C",
+        foliage_mid="#74C69D",
+        foliage_light="#B7E4C7",
+        water_color="#90E0EF",
+        opacity=1.0,
+    )
+    + "</svg>"
+)
 
 SPECIES_DATA = [
     {
@@ -31,7 +81,7 @@ SPECIES_DATA = [
         "tree_color_2": "#52B788",
         "trunk_color": "#1B4332",
         "biome_type": "acacia",
-        "svg": """<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#2D6A4F"/><path d="M40 64V34" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><ellipse cx="40" cy="28" rx="22" ry="11" fill="#74C69D"/><ellipse cx="40" cy="22" rx="14" ry="8" fill="#B7E4C7"/></svg>""",
+        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#2D6A4F"/><path d="M40 64V34" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><ellipse cx="40" cy="28" rx="22" ry="11" fill="#74C69D"/><ellipse cx="40" cy="22" rx="14" ry="8" fill="#B7E4C7"/></svg>""",
     },
     {
         "name": "Dipterocarpus",
@@ -45,7 +95,7 @@ SPECIES_DATA = [
         "tree_color_2": "#40916C",
         "trunk_color": "#123524",
         "biome_type": "hardwood",
-        "svg": """<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V30" stroke="#95D5B2" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="26" r="15" fill="#52B788"/><circle cx="29" cy="33" r="10" fill="#74C69D"/><circle cx="51" cy="33" r="10" fill="#74C69D"/></svg>""",
+        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V30" stroke="#95D5B2" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="26" r="15" fill="#52B788"/><circle cx="29" cy="33" r="10" fill="#74C69D"/><circle cx="51" cy="33" r="10" fill="#74C69D"/></svg>""",
     },
     {
         "name": "Hopea odorata",
@@ -56,10 +106,10 @@ SPECIES_DATA = [
         "co2_per_ha_yr": 19.8,
         "bg_tint": "#E0F2F4",
         "tree_color_1": "#1D6F72",
-        "tree_color_2": "#48CAE4",
+        "tree_color_2": "#2A9D8F",
         "trunk_color": "#134E52",
         "biome_type": "wetland",
-        "svg": """<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#2D6A4F"/><path d="M22 60Q40 54 58 60" stroke="#90E0EF" stroke-width="3.5" stroke-linecap="round"/><path d="M40 57V28" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><path d="M40 16L54 38H26L40 16Z" fill="#74C69D"/><path d="M40 26L56 46H24L40 26Z" fill="#B7E4C7"/></svg>""",
+        "svg": HOPEA_ICON_SVG,
     },
     {
         "name": "Shorea robusta",
@@ -73,12 +123,12 @@ SPECIES_DATA = [
         "tree_color_2": "#6A994E",
         "trunk_color": "#183A21",
         "biome_type": "climax",
-        "svg": """<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V26" stroke="#D8F3DC" stroke-width="4.5" stroke-linecap="round"/><circle cx="40" cy="22" r="13" fill="#B7E4C7"/><circle cx="27" cy="30" r="11" fill="#74C69D"/><circle cx="53" cy="30" r="11" fill="#74C69D"/><circle cx="40" cy="34" r="12" fill="#52B788"/></svg>""",
+        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V26" stroke="#D8F3DC" stroke-width="4.5" stroke-linecap="round"/><circle cx="40" cy="22" r="13" fill="#B7E4C7"/><circle cx="27" cy="30" r="11" fill="#74C69D"/><circle cx="53" cy="30" r="11" fill="#74C69D"/><circle cx="40" cy="34" r="12" fill="#52B788"/></svg>""",
     },
 ]
 
 # ---------------------------------------------------------
-# 3. Session State Initialization
+# 4. Session State Initialization
 # ---------------------------------------------------------
 if "ph" not in st.session_state:
     st.session_state.ph = 6.5
@@ -89,14 +139,16 @@ if "npk" not in st.session_state:
 if "temp" not in st.session_state:
     st.session_state.temp = 28.5
 
+
 def set_preset(ph, moisture, npk, temp):
     st.session_state.ph = ph
     st.session_state.moisture = moisture
     st.session_state.npk = npk
     st.session_state.temp = temp
 
+
 # ---------------------------------------------------------
-# 4. Dynamic TensorFlow Engine
+# 5. Dynamic TensorFlow Engine
 # ---------------------------------------------------------
 def run_tf_inference(ph, moisture, npk, temp):
     norm_ph = (ph - 4.0) / 5.0
@@ -123,11 +175,17 @@ def run_tf_inference(ph, moisture, npk, temp):
     predicted_idx = int(np.argmax(probabilities))
     confidence = float(probabilities[predicted_idx] * 100)
 
-    return predicted_idx, confidence, probabilities, norm_values, logits_tensor.numpy()[0]
+    return (
+        predicted_idx,
+        confidence,
+        probabilities,
+        norm_values,
+        logits_tensor.numpy()[0],
+    )
 
 
 # ---------------------------------------------------------
-# 5. Reactive Botanical Tree SVG Generator (Zero Indentation)
+# 6. Reactive Botanical Tree SVG Generator
 # ---------------------------------------------------------
 def build_dynamic_forest_html(species_cfg, confidence, hectares):
     c1 = species_cfg["tree_color_1"]
@@ -135,29 +193,38 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
     trunk = species_cfg["trunk_color"]
     biome = species_cfg["biome_type"]
 
-    # Visible soft opacity (0.14 to 0.24) so trees are clearly seen behind frosted panels
-    op = round(0.14 + (confidence / 100.0) * 0.10, 2)
+    op = round(0.15 + (confidence / 100.0) * 0.10, 2)
 
     extra_grove = ""
     if hectares >= 15:
-        extra_grove = (
-            f'<g class="tree-sway-2" opacity="{op}">'
-            f'<path d="M475 430 C478 370, 480 320, 482 260 L494 260 C496 320, 498 370, 502 430 Z" fill="{trunk}"/>'
-            f'<path d="M486 310 Q458 282 440 268" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
-            f'<path d="M490 295 Q518 268 538 255" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
-            f'<circle cx="488" cy="232" r="52" fill="{c1}"/>'
-            f'<circle cx="445" cy="258" r="38" fill="{c2}"/>'
-            f'<circle cx="532" cy="254" r="40" fill="{c1}"/>'
-            f'</g>'
-            f'<g class="tree-sway-3" opacity="{op}">'
-            f'<path d="M930 430 C933 365, 935 315, 937 250 L949 250 C951 315, 953 365, 957 430 Z" fill="{trunk}"/>'
-            f'<path d="M941 300 Q912 272 894 258" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
-            f'<path d="M945 285 Q974 258 992 245" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
-            f'<circle cx="943" cy="222" r="54" fill="{c2}"/>'
-            f'<circle cx="898" cy="250" r="40" fill="{c1}"/>'
-            f'<circle cx="988" cy="246" r="38" fill="{c1}"/>'
-            f'</g>'
-        )
+        if biome == "wetland":
+            hopea_mid = get_hopea_svg_art(
+                trunk_color=trunk,
+                foliage_dark=c1,
+                foliage_mid=c2,
+                foliage_light="#74C69D",
+                water_color="#48CAE4",
+                opacity=op,
+            )
+            extra_grove = (
+                f'<g class="tree-sway-2" transform="translate(430, 185) scale(1.45)">{hopea_mid}</g>'
+                f'<g class="tree-sway-3" transform="translate(860, 175) scale(1.5)">{hopea_mid}</g>'
+            )
+        else:
+            extra_grove = (
+                f'<g class="tree-sway-2" opacity="{op}">'
+                f'<path d="M475 430 C478 370, 480 320, 482 260 L494 260 C496 320, 498 370, 502 430 Z" fill="{trunk}"/>'
+                f'<circle cx="488" cy="232" r="52" fill="{c1}"/>'
+                f'<circle cx="445" cy="258" r="38" fill="{c2}"/>'
+                f'<circle cx="532" cy="254" r="40" fill="{c1}"/>'
+                f'</g>'
+                f'<g class="tree-sway-3" opacity="{op}">'
+                f'<path d="M930 430 C933 365, 935 315, 937 250 L949 250 C951 315, 953 365, 957 430 Z" fill="{trunk}"/>'
+                f'<circle cx="943" cy="222" r="54" fill="{c2}"/>'
+                f'<circle cx="898" cy="250" r="40" fill="{c1}"/>'
+                f'<circle cx="988" cy="246" r="38" fill="{c1}"/>'
+                f'</g>'
+            )
 
     if biome == "acacia":
         hero_trees = (
@@ -180,19 +247,24 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
             f'</g>'
         )
     elif biome == "wetland":
+        # Uses the EXACT same Hopea odorata SVG art as the species card icon!
+        hopea_unit = get_hopea_svg_art(
+            trunk_color=trunk,
+            foliage_dark=c1,
+            foliage_mid=c2,
+            foliage_light="#74C69D",
+            water_color="#48CAE4",
+            opacity=min(0.32, op + 0.06),
+        )
         hero_trees = (
-            f'<path d="M0 392 Q360 368 720 392 T1440 386" stroke="{c2}" stroke-width="4" stroke-opacity="{op}"/>'
-            f'<path d="M0 412 Q360 388 720 412 T1440 406" stroke="{c1}" stroke-width="4" stroke-opacity="{op}"/>'
-            f'<g class="tree-sway-1" opacity="{op + 0.04}">'
-            f'<path d="M108 430 C115 360, 112 295, 124 220 L140 220 C136 295, 144 360, 155 430 Z" fill="{trunk}"/>'
-            f'<path d="M40 262 Q52 170 132 165 Q212 170 224 262 Q202 328 190 350 Q180 290 166 274 Q155 338 144 360 Q132 295 120 276 Q108 338 98 355 Q86 290 72 274 Q58 328 40 262 Z" fill="{c1}"/>'
-            f'<path d="M65 242 Q78 182 132 178 Q186 182 198 242 Q175 302 164 318 Q148 264 132 264 Q116 264 100 318 Q88 302 65 242 Z" fill="{c2}"/>'
-            f'</g>'
-            f'<g class="tree-sway-2" opacity="{op + 0.04}">'
-            f'<path d="M1280 430 C1288 355, 1286 285, 1298 210 L1314 210 C1310 285, 1318 355, 1328 430 Z" fill="{trunk}"/>'
-            f'<path d="M1212 252 Q1225 158 1305 152 Q1385 158 1398 252 Q1376 322 1365 344 Q1352 280 1338 264 Q1325 332 1314 354 Q1302 285 1288 266 Q1275 332 1264 348 Q1252 280 1236 264 Q1222 322 1212 252 Z" fill="{c1}"/>'
-            f'<path d="M1238 232 Q1252 172 1305 168 Q1358 172 1372 232 Q1348 296 1338 312 Q1322 254 1305 254 Q1288 254 1272 312 Q1260 296 1238 232 Z" fill="{c2}"/>'
-            f'</g>'
+            f'<path d="M0 398 Q360 374 720 398 T1440 392" stroke="#48CAE4" stroke-width="3.5" stroke-opacity="{op}"/>'
+            f'<path d="M0 416 Q360 392 720 416 T1440 410" stroke="{c1}" stroke-width="3.5" stroke-opacity="{op}"/>'
+            # Left Primary Hopea odorata
+            f'<g class="tree-sway-1" transform="translate(15, 110) scale(2.05)">{hopea_unit}</g>'
+            # Secondary Left Young Hopea odorata
+            f'<g class="tree-sway-3" transform="translate(230, 200) scale(1.42)">{hopea_unit}</g>'
+            # Right Primary Hopea odorata
+            f'<g class="tree-sway-2" transform="translate(1150, 95) scale(2.15)">{hopea_unit}</g>'
         )
     else:
         hero_trees = (
@@ -210,8 +282,6 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
             f'</g>'
             f'<g class="tree-sway-3" opacity="{op}">'
             f'<path d="M275 430 C280 385, 282 340, 284 290 L296 290 C298 340, 300 385, 306 430 Z" fill="{trunk}"/>'
-            f'<path d="M288 328 Q266 306 250 294" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
-            f'<path d="M292 318 Q314 296 330 286" stroke="{trunk}" stroke-width="6" stroke-linecap="round"/>'
             f'<circle cx="290" cy="264" r="46" fill="{c2}"/>'
             f'<circle cx="256" cy="285" r="34" fill="{c1}"/>'
             f'<circle cx="324" cy="282" r="35" fill="{c1}"/>'
@@ -241,7 +311,7 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
 
 
 # ---------------------------------------------------------
-# 6. Main Interactive Columns & TensorFlow Execution
+# 7. Main Interactive Columns & TensorFlow Execution
 # ---------------------------------------------------------
 col_input, col_output = st.columns([1, 1.32], gap="large")
 
@@ -274,7 +344,9 @@ with col_input:
         soil_ph = st.slider("🧪 Soil pH Level", 4.0, 9.0, key="ph", step=0.1)
         moisture = st.slider("💧 Soil Moisture Content (%)", 0, 100, key="moisture")
         npk = st.slider("🌿 NPK Nutrient Index (PPM)", 10, 300, key="npk")
-        temp = st.number_input("🌡️ Ambient Temperature (°C)", 15.0, 45.0, key="temp", step=0.5)
+        temp = st.number_input(
+            "🌡️ Ambient Temperature (°C)", 15.0, 45.0, key="temp", step=0.5
+        )
 
         st.divider()
         st.markdown("**🌍 Reforestation Plot Scale**")
@@ -295,7 +367,7 @@ top_species = SPECIES_DATA[idx]
 sway_duration = max(3.0, round(10.5 - (temp - 15.0) * 0.22, 1))
 
 # ---------------------------------------------------------
-# 7. Inject CSS & Dynamic Tree Layer (Zero Indentation!)
+# 8. Inject CSS & Dynamic Tree Layer (Zero Indentation)
 # ---------------------------------------------------------
 css_and_bg = f"""<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -474,14 +546,16 @@ section[data-testid="stSidebar"] > div {{
 st.markdown(css_and_bg, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 8. Sidebar & Hero Banner Render
+# 9. Sidebar & Hero Banner Render
 # ---------------------------------------------------------
 with st.sidebar:
     st.markdown("### 🍃 Team Lemon Tea")
     st.caption("2026 Han Chiang High School AI Vanguard Challenge")
     st.divider()
     st.markdown("**🎯 UN SDG Alignment**")
-    st.success("**SDG 15: Life on Land**\n\nAI-guided native species matching to maximize sapling survival and carbon capture.")
+    st.success(
+        "**SDG 15: Life on Land**\n\nAI-guided native species matching to maximize sapling survival and carbon capture."
+    )
     st.markdown("**⚙️ System Stack**")
     st.markdown(
         """
@@ -500,7 +574,7 @@ st.markdown(
 )
 
 # ---------------------------------------------------------
-# 9. Output Panel Render
+# 10. Output Panel Render
 # ---------------------------------------------------------
 with col_output:
     with st.container(border=True):
@@ -515,8 +589,14 @@ with col_output:
             st.write("")
             m1, m2, m3 = st.columns(3)
             m1.metric("AI Confidence", f"{confidence:.1f}%", "Optimal Match")
-            m2.metric("Est. Survival", top_species["survival_rate"], f"{trees_planted:,} Trees")
-            m3.metric("10-Yr CO₂ Offset", f"{co2_10yr:,.0f} t", f"{hectares} Hectares")
+            m2.metric(
+                "Est. Survival",
+                top_species["survival_rate"],
+                f"{trees_planted:,} Trees",
+            )
+            m3.metric(
+                "10-Yr CO₂ Offset", f"{co2_10yr:,.0f} t", f"{hectares} Hectares"
+            )
 
             st.markdown(
                 f'<div class="species-card"><div>{top_species["svg"]}</div><div><h4>{top_species["name"]}</h4><p><strong>Classification:</strong> {top_species["tag"]}</p><p><strong>Ideal Soil:</strong> {top_species["soil_pref"]}</p></div></div>',
@@ -525,11 +605,15 @@ with col_output:
 
             st.markdown(f"**🌍 Ecological Impact:** {top_species['benefit']}")
             st.write("")
-            st.markdown("**📈 Species Probability Distribution (Softmax Output)**")
+            st.markdown(
+                "**📈 Species Probability Distribution (Softmax Output)**"
+            )
             chart_df = pd.DataFrame(
                 {
                     "Species": [s["name"] for s in SPECIES_DATA],
-                    "Match Probability (%)": [round(float(p) * 100, 1) for p in probs],
+                    "Match Probability (%)": [
+                        round(float(p) * 100, 1) for p in probs
+                    ],
                 }
             ).set_index("Species")
             st.bar_chart(chart_df, color="#2D6A4F", height=205)
@@ -542,7 +626,12 @@ with col_output:
             st.markdown("**1. Normalized 4D Sensor Input Tensor `[0.0 – 1.0]`**")
             xai_df = pd.DataFrame(
                 {
-                    "Sensor Feature": ["Soil pH", "Soil Moisture (%)", "NPK Index (PPM)", "Temperature (°C)"],
+                    "Sensor Feature": [
+                        "Soil pH",
+                        "Soil Moisture (%)",
+                        "NPK Index (PPM)",
+                        "Temperature (°C)",
+                    ],
                     "Raw Field Reading": [soil_ph, moisture, npk, temp],
                     "Normalized Tensor Value": [round(v, 3) for v in norm_vals],
                 }
@@ -552,9 +641,16 @@ with col_output:
             st.markdown("**2. Layer Logits & Softmax Probability Calibration**")
             logits_df = pd.DataFrame(
                 {
-                    "Candidate Tree Species": [s["name"] for s in SPECIES_DATA],
-                    "Scaled Logit (X · W × 2.2)": [round(float(l), 2) for l in raw_logits],
-                    "Final Softmax Confidence": [f"{round(float(p) * 100, 1)}%" for p in probs],
+                    "Candidate Tree Species": [
+                        s["name"] for s in SPECIES_DATA
+                    ],
+                    "Scaled Logit (X · W × 2.2)": [
+                        round(float(l), 2) for l in raw_logits
+                    ],
+                    "Final Softmax Confidence": [
+                        f"{round(float(p) * 100, 1)}%" for p in probs
+                    ],
                 }
             )
             st.dataframe(logits_df, use_container_width=True, hide_index=True)
+            

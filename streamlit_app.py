@@ -489,11 +489,10 @@ with st.sidebar:
     st.markdown("**⚙️ System Stack**")
     st.markdown(
         """
-        - **UI Layer:** Streamlit + Custom CSS
-        - **AI Engine:** Pre-compiled `@tf.function`
-        - **Input Tensor:** 4D Soil & Climate Vector
-        - **Visual Sync:** Zero-Lag Biome SVG
+        - **Frontend:** Streamlit
+        - **AI Engine:** TensorFlow
         """
+    )
     )
     st.divider()
     st.caption(f"🟢 Active Biome: **{top_species['name']}**")

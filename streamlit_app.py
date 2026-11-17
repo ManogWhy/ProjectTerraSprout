@@ -27,7 +27,6 @@ def get_species_botanical_art(
 ):
     """Returns a 140x160 botanical tree SVG group shared by both the card icon and background."""
     if biome_type == "acacia":
-        # Wide flat-topped umbrella pioneer canopy with forked limbs
         return (
             f'<g opacity="{opacity}">'
             f'<path d="M58 148 C63 118, 65 95, 66 72 L74 72 C75 95, 77 118, 82 148 Z" fill="{trunk_color}"/>'
@@ -40,7 +39,6 @@ def get_species_botanical_art(
             f'</g>'
         )
     elif biome_type == "wetland":
-        # Hopea odorata: straight dipterocarp trunk, buttress roots, conical-drooping tiered crown
         return (
             f'<g opacity="{opacity}">'
             f'<path d="M16 148 Q70 140 124 148" stroke="#48CAE4" stroke-width="3" stroke-linecap="round" fill="none"/>'
@@ -54,7 +52,6 @@ def get_species_botanical_art(
             f'</g>'
         )
     elif biome_type == "climax":
-        # Shorea robusta: towering dense multi-tier crown
         return (
             f'<g opacity="{opacity}">'
             f'<path d="M56 148 C62 122, 64 96, 65 66 L75 66 C76 96, 78 122, 84 148 Z" fill="{trunk_color}"/>'
@@ -67,7 +64,6 @@ def get_species_botanical_art(
             f'</g>'
         )
     else:
-        # Dipterocarpus: tall rainforest hardwood with spread limbs
         return (
             f'<g opacity="{opacity}">'
             f'<path d="M56 148 C62 122, 64 98, 65 70 L75 70 C76 98, 78 122, 84 148 Z" fill="{trunk_color}"/>'
@@ -177,6 +173,8 @@ if "npk" not in st.session_state:
     st.session_state.npk = 150
 if "temp" not in st.session_state:
     st.session_state.temp = 28.5
+if "hectares" not in st.session_state:
+    st.session_state.hectares = 10
 
 
 def set_preset(ph, moisture, npk, temp):
@@ -233,7 +231,6 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
     trunk = species_cfg["trunk_color"]
     biome = species_cfg["biome_type"]
 
-    # Clearly visible faded opacity (0.20 to 0.30)
     op = round(0.20 + (confidence / 100.0) * 0.10, 2)
 
     tree_art = get_species_botanical_art(
@@ -245,17 +242,12 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
         opacity=op,
     )
 
-    # Positioned cleanly inside the 1440x440 viewport so trunks and canopies are fully visible
     trees_svg = (
-        # Left Primary Hero Tree (bottom at y=424)
         f'<g transform="translate(18, 120) scale(1.95)"><g class="tree-sway-1">{tree_art}</g></g>'
-        # Left Secondary Sapling (bottom at y=424)
         f'<g transform="translate(245, 210) scale(1.38)"><g class="tree-sway-3">{tree_art}</g></g>'
-        # Right Primary Hero Tree (bottom at y=424)
         f'<g transform="translate(1140, 110) scale(2.02)"><g class="tree-sway-2">{tree_art}</g></g>'
     )
 
-    # Additional center grove trees appear when Target Planting Area >= 15 Hectares
     if hectares >= 15:
         trees_svg += (
             f'<g transform="translate(460, 225) scale(1.28)"><g class="tree-sway-2">{tree_art}</g></g>'
@@ -273,63 +265,19 @@ def build_dynamic_forest_html(species_cfg, confidence, hectares):
 
 
 # ---------------------------------------------------------
-# 7. Main Interactive Columns & TensorFlow Execution
+# 7. Run Live TensorFlow Inference From Session State
 # ---------------------------------------------------------
-col_input, col_output = st.columns([1, 1.32], gap="large")
-
-with col_input:
-    with st.container(border=True):
-        st.subheader("📊 Field Sensor Inputs")
-        st.caption("Select a field preset or fine-tune IoT probe readings:")
-
-        p1, p2, p3 = st.columns(3)
-        p1.button(
-            "🌊 Wetland",
-            use_container_width=True,
-            on_click=set_preset,
-            args=(5.2, 88, 110, 26.5),
-        )
-        p2.button(
-            "🏜️ Degraded",
-            use_container_width=True,
-            on_click=set_preset,
-            args=(8.2, 22, 95, 31.0),
-        )
-        p3.button(
-            "🌳 Highland",
-            use_container_width=True,
-            on_click=set_preset,
-            args=(6.4, 52, 265, 24.0),
-        )
-
-        st.write("")
-        soil_ph = st.slider("🧪 Soil pH Level", 4.0, 9.0, key="ph", step=0.1)
-        moisture = st.slider("💧 Soil Moisture Content (%)", 0, 100, key="moisture")
-        npk = st.slider("🌿 NPK Nutrient Index (PPM)", 10, 300, key="npk")
-        temp = st.number_input(
-            "🌡️ Ambient Temperature (°C)", 15.0, 45.0, key="temp", step=0.5
-        )
-
-        st.divider()
-        st.markdown("**🌍 Reforestation Plot Scale**")
-        hectares = st.slider("Target Planting Area (Hectares)", 1, 50, 10)
-
-        st.write("")
-        st.button(
-            "🚀 Run TensorFlow Analysis",
-            type="primary",
-            use_container_width=True,
-        )
-
-# Run live TensorFlow inference
 idx, confidence, probs, norm_vals, raw_logits = run_tf_inference(
-    soil_ph, moisture, npk, temp
+    st.session_state.ph,
+    st.session_state.moisture,
+    st.session_state.npk,
+    st.session_state.temp,
 )
 top_species = SPECIES_DATA[idx]
-sway_duration = max(3.0, round(10.5 - (temp - 15.0) * 0.22, 1))
+sway_duration = max(3.0, round(10.5 - (st.session_state.temp - 15.0) * 0.22, 1))
 
 # ---------------------------------------------------------
-# 8. Inject CSS & Dynamic Tree Layer (Zero Indentation)
+# 8. Inject CSS & Dynamic Tree Layer
 # ---------------------------------------------------------
 css_and_bg = f"""<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -503,12 +451,12 @@ section[data-testid="stSidebar"] > div {{
     z-index: 4;
 }}
 </style>
-{build_dynamic_forest_html(top_species, confidence, hectares)}"""
+{build_dynamic_forest_html(top_species, confidence, st.session_state.hectares)}"""
 
 st.markdown(css_and_bg, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# 9. Sidebar & Hero Banner Render
+# 9. Sidebar & Top Hero Banner Render
 # ---------------------------------------------------------
 with st.sidebar:
     st.markdown("### 🍃 Team Lemon Tea")
@@ -536,8 +484,54 @@ st.markdown(
 )
 
 # ---------------------------------------------------------
-# 10. Output Panel Render
+# 10. Main Interactive Columns (Below Hero Banner)
 # ---------------------------------------------------------
+col_input, col_output = st.columns([1, 1.32], gap="large")
+
+with col_input:
+    with st.container(border=True):
+        st.subheader("📊 Field Sensor Inputs")
+        st.caption("Select a field preset or fine-tune IoT probe readings:")
+
+        p1, p2, p3 = st.columns(3)
+        p1.button(
+            "🌊 Wetland",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(5.2, 88, 110, 26.5),
+        )
+        p2.button(
+            "🏜️ Degraded",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(8.2, 22, 95, 31.0),
+        )
+        p3.button(
+            "🌳 Highland",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(6.4, 52, 265, 24.0),
+        )
+
+        st.write("")
+        soil_ph = st.slider("🧪 Soil pH Level", 4.0, 9.0, key="ph", step=0.1)
+        moisture = st.slider("💧 Soil Moisture Content (%)", 0, 100, key="moisture")
+        npk = st.slider("🌿 NPK Nutrient Index (PPM)", 10, 300, key="npk")
+        temp = st.number_input(
+            "🌡️ Ambient Temperature (°C)", 15.0, 45.0, key="temp", step=0.5
+        )
+
+        st.divider()
+        st.markdown("**🌍 Reforestation Plot Scale**")
+        hectares = st.slider("Target Planting Area (Hectares)", 1, 50, key="hectares")
+
+        st.write("")
+        st.button(
+            "🚀 Run TensorFlow Analysis",
+            type="primary",
+            use_container_width=True,
+        )
+
 with col_output:
     with st.container(border=True):
         trees_planted = hectares * 1100

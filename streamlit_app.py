@@ -493,7 +493,7 @@ with st.sidebar:
         - **AI Engine:** TensorFlow
         """
     )
-    )
+    
     st.divider()
     st.caption(f"🟢 Active Biome: **{top_species['name']}**")
 

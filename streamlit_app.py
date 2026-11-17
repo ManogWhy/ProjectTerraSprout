@@ -15,58 +15,93 @@ st.set_page_config(
 
 
 # ---------------------------------------------------------
-# 2. Shared Botanical SVG Helper for Hopea odorata
+# 2. Shared Botanical SVG Generators (100% Unified Icon & BG)
 # ---------------------------------------------------------
-def get_hopea_svg_art(
-    trunk_color="#134E52",
-    foliage_dark="#1D6F72",
-    foliage_mid="#2A9D8F",
-    foliage_light="#74C69D",
-    water_color="#48CAE4",
+def get_species_botanical_art(
+    biome_type,
+    trunk_color="#1B4332",
+    c1="#2D6A4F",
+    c2="#52B788",
+    c3="#95D5B2",
     opacity=1.0,
 ):
-    """Returns authentic Hopea odorata SVG elements (buttress roots, straight bole, layered conical-drooping crown)."""
-    return (
-        f'<g opacity="{opacity}">'
-        # Riparian water ripples at base
-        f'<path d="M16 146 Q70 138 124 146" stroke="{water_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
-        f'<path d="M28 153 Q70 147 112 153" stroke="{foliage_light}" stroke-width="2" stroke-linecap="round" fill="none"/>'
-        # Straight dipterocarp trunk with flared buttress roots
-        f'<path d="M54 142 C62 132, 64 112, 65 44 L75 44 C76 112, 78 132, 86 142 L74 142 L70 130 L66 142 Z" fill="{trunk_color}"/>'
-        # Upper ascending & outer drooping limbs
-        f'<path d="M68 88 Q46 84 32 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
-        f'<path d="M72 88 Q94 84 108 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
-        f'<path d="M68 64 Q50 60 40 72" stroke="{trunk_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
-        f'<path d="M72 64 Q90 60 100 72" stroke="{trunk_color}" stroke-width="3" stroke-linecap="round" fill="none"/>'
-        # Tier 1 (Lower wide skirt with drooping branch tips)
-        f'<path d="M22 104 C26 78, 48 72, 70 72 C92 72, 114 78, 118 104 C112 112, 104 108, 98 100 C90 106, 80 104, 70 98 C60 104, 50 106, 42 100 C36 108, 28 112, 22 104 Z" fill="{foliage_dark}"/>'
-        # Tier 2 (Middle conical-layered foliage)
-        f'<path d="M30 80 C34 54, 52 46, 70 46 C88 46, 106 54, 110 80 C104 86, 96 82, 90 76 C82 82, 76 80, 70 75 C64 80, 58 82, 50 76 C44 82, 36 86, 30 80 Z" fill="{foliage_mid}"/>'
-        # Tier 3 (Upper emergent crown)
-        f'<path d="M42 54 C46 30, 58 20, 70 18 C82 20, 94 30, 98 54 C92 60, 84 56, 78 50 C74 54, 66 54, 62 50 C56 56, 48 60, 42 54 Z" fill="{foliage_light}"/>'
-        f'</g>'
-    )
+    """Returns a 140x160 botanical tree SVG group shared by both the card icon and background."""
+    if biome_type == "acacia":
+        # Wide flat-topped umbrella pioneer canopy with forked limbs
+        return (
+            f'<g opacity="{opacity}">'
+            f'<path d="M58 148 C63 118, 65 95, 66 72 L74 72 C75 95, 77 118, 82 148 Z" fill="{trunk_color}"/>'
+            f'<path d="M68 92 Q48 76 34 68" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
+            f'<path d="M72 88 Q92 72 106 66" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
+            f'<ellipse cx="70" cy="60" rx="54" ry="16" fill="{c1}"/>'
+            f'<ellipse cx="46" cy="66" rx="32" ry="12" fill="{c2}"/>'
+            f'<ellipse cx="94" cy="65" rx="34" ry="12" fill="{c2}"/>'
+            f'<ellipse cx="70" cy="50" rx="38" ry="11" fill="{c3}"/>'
+            f'</g>'
+        )
+    elif biome_type == "wetland":
+        # Hopea odorata: straight dipterocarp trunk, buttress roots, conical-drooping tiered crown
+        return (
+            f'<g opacity="{opacity}">'
+            f'<path d="M16 148 Q70 140 124 148" stroke="#48CAE4" stroke-width="3" stroke-linecap="round" fill="none"/>'
+            f'<path d="M28 154 Q70 148 112 154" stroke="{c3}" stroke-width="2" stroke-linecap="round" fill="none"/>'
+            f'<path d="M54 144 C62 134, 64 112, 65 44 L75 44 C76 112, 78 134, 86 144 L74 144 L70 132 L66 144 Z" fill="{trunk_color}"/>'
+            f'<path d="M68 88 Q46 84 32 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+            f'<path d="M72 88 Q94 84 108 98" stroke="{trunk_color}" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+            f'<path d="M22 104 C26 78, 48 72, 70 72 C92 72, 114 78, 118 104 C112 112, 104 108, 98 100 C90 106, 80 104, 70 98 C60 104, 50 106, 42 100 C36 108, 28 112, 22 104 Z" fill="{c1}"/>'
+            f'<path d="M30 80 C34 54, 52 46, 70 46 C88 46, 106 54, 110 80 C104 86, 96 82, 90 76 C82 82, 76 80, 70 75 C64 80, 58 82, 50 76 C44 82, 36 86, 30 80 Z" fill="{c2}"/>'
+            f'<path d="M42 54 C46 30, 58 20, 70 18 C82 20, 94 30, 98 54 C92 60, 84 56, 78 50 C74 54, 66 54, 62 50 C56 56, 48 60, 42 54 Z" fill="{c3}"/>'
+            f'</g>'
+        )
+    elif biome_type == "climax":
+        # Shorea robusta: towering dense multi-tier crown
+        return (
+            f'<g opacity="{opacity}">'
+            f'<path d="M56 148 C62 122, 64 96, 65 66 L75 66 C76 96, 78 122, 84 148 Z" fill="{trunk_color}"/>'
+            f'<circle cx="70" cy="46" r="28" fill="{c1}"/>'
+            f'<circle cx="44" cy="64" r="22" fill="{c1}"/>'
+            f'<circle cx="96" cy="64" r="22" fill="{c1}"/>'
+            f'<circle cx="56" cy="36" r="20" fill="{c2}"/>'
+            f'<circle cx="84" cy="36" r="20" fill="{c2}"/>'
+            f'<circle cx="70" cy="58" r="24" fill="{c3}"/>'
+            f'</g>'
+        )
+    else:
+        # Dipterocarpus: tall rainforest hardwood with spread limbs
+        return (
+            f'<g opacity="{opacity}">'
+            f'<path d="M56 148 C62 122, 64 98, 65 70 L75 70 C76 98, 78 122, 84 148 Z" fill="{trunk_color}"/>'
+            f'<path d="M68 92 Q50 78 38 70" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
+            f'<path d="M72 86 Q90 74 102 66" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
+            f'<circle cx="70" cy="52" r="26" fill="{c1}"/>'
+            f'<circle cx="46" cy="68" r="20" fill="{c2}"/>'
+            f'<circle cx="94" cy="66" r="21" fill="{c2}"/>'
+            f'<circle cx="70" cy="38" r="19" fill="{c3}"/>'
+            f'</g>'
+        )
 
 
-# ---------------------------------------------------------
-# 3. Species Knowledge Base & Botanical SVG Artwork
-# ---------------------------------------------------------
-HERO_SVG = """<svg width="118" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="45" r="42" fill="#40916C" fill-opacity="0.32"/><circle cx="60" cy="45" r="32" stroke="#95D5B2" stroke-opacity="0.45" stroke-dasharray="4 4"/><path d="M35 72C35 55 48 45 60 45C72 45 85 55 85 72H35Z" fill="#95D5B2"/><path d="M60 68V28" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><path d="M60 42C60 42 42 40 40 25C54 24 60 35 60 42Z" fill="#B7E4C7"/><path d="M60 34C60 34 78 32 80 17C66 16 60 27 60 34Z" fill="#FFFFFF"/><circle cx="94" cy="22" r="4" fill="#B7E4C7"/><circle cx="26" cy="34" r="3" fill="#95D5B2"/></svg>"""
-
-# Matching Hopea odorata Card Icon using the exact same botanical tree function
-HOPEA_ICON_SVG = (
-    '<svg width="74" height="74" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    '<rect x="4" y="4" width="132" height="152" rx="34" fill="#164E52"/>'
-    + get_hopea_svg_art(
+def build_card_icon_svg(biome_type, bg_fill):
+    """Creates a 74x74 rounded card badge using the exact same botanical tree art."""
+    art = get_species_botanical_art(
+        biome_type=biome_type,
         trunk_color="#D8F3DC",
-        foliage_dark="#40916C",
-        foliage_mid="#74C69D",
-        foliage_light="#B7E4C7",
-        water_color="#90E0EF",
+        c1="#40916C",
+        c2="#74C69D",
+        c3="#B7E4C7",
         opacity=1.0,
     )
-    + "</svg>"
-)
+    return (
+        f'<svg width="74" height="74" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<rect x="4" y="4" width="132" height="152" rx="34" fill="{bg_fill}"/>'
+        f'{art}</svg>'
+    )
+
+
+# ---------------------------------------------------------
+# 3. Species Knowledge Base
+# ---------------------------------------------------------
+HERO_SVG = """<svg width="118" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="45" r="42" fill="#40916C" fill-opacity="0.32"/><circle cx="60" cy="45" r="32" stroke="#95D5B2" stroke-opacity="0.45" stroke-dasharray="4 4"/><path d="M35 72C35 55 48 45 60 45C72 45 85 55 85 72H35Z" fill="#95D5B2"/><path d="M60 68V28" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><path d="M60 42C60 42 42 40 40 25C54 24 60 35 60 42Z" fill="#B7E4C7"/><path d="M60 34C60 34 78 32 80 17C66 16 60 27 60 34Z" fill="#FFFFFF"/><circle cx="94" cy="22" r="4" fill="#B7E4C7"/><circle cx="26" cy="34" r="3" fill="#95D5B2"/></svg>"""
 
 SPECIES_DATA = [
     {
@@ -78,10 +113,11 @@ SPECIES_DATA = [
         "co2_per_ha_yr": 18.5,
         "bg_tint": "#E4F5E9",
         "tree_color_1": "#2D6A4F",
-        "tree_color_2": "#52B788",
+        "tree_color_2": "#40916C",
+        "tree_color_3": "#74C69D",
         "trunk_color": "#1B4332",
         "biome_type": "acacia",
-        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#2D6A4F"/><path d="M40 64V34" stroke="#D8F3DC" stroke-width="4" stroke-linecap="round"/><ellipse cx="40" cy="28" rx="22" ry="11" fill="#74C69D"/><ellipse cx="40" cy="22" rx="14" ry="8" fill="#B7E4C7"/></svg>""",
+        "svg": build_card_icon_svg("acacia", "#2D6A4F"),
     },
     {
         "name": "Dipterocarpus",
@@ -92,10 +128,11 @@ SPECIES_DATA = [
         "co2_per_ha_yr": 22.0,
         "bg_tint": "#E2F3ED",
         "tree_color_1": "#1B4332",
-        "tree_color_2": "#40916C",
+        "tree_color_2": "#2D6A4F",
+        "tree_color_3": "#52B788",
         "trunk_color": "#123524",
         "biome_type": "hardwood",
-        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V30" stroke="#95D5B2" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="26" r="15" fill="#52B788"/><circle cx="29" cy="33" r="10" fill="#74C69D"/><circle cx="51" cy="33" r="10" fill="#74C69D"/></svg>""",
+        "svg": build_card_icon_svg("hardwood", "#1B4332"),
     },
     {
         "name": "Hopea odorata",
@@ -105,11 +142,12 @@ SPECIES_DATA = [
         "survival_rate": "96%",
         "co2_per_ha_yr": 19.8,
         "bg_tint": "#E0F2F4",
-        "tree_color_1": "#1D6F72",
-        "tree_color_2": "#2A9D8F",
-        "trunk_color": "#134E52",
+        "tree_color_1": "#164E52",
+        "tree_color_2": "#1D6F72",
+        "tree_color_3": "#2A9D8F",
+        "trunk_color": "#0F383B",
         "biome_type": "wetland",
-        "svg": HOPEA_ICON_SVG,
+        "svg": build_card_icon_svg("wetland", "#164E52"),
     },
     {
         "name": "Shorea robusta",
@@ -120,10 +158,11 @@ SPECIES_DATA = [
         "co2_per_ha_yr": 24.2,
         "bg_tint": "#E6F5E6",
         "tree_color_1": "#23532F",
-        "tree_color_2": "#6A994E",
+        "tree_color_2": "#386641",
+        "tree_color_3": "#6A994E",
         "trunk_color": "#183A21",
         "biome_type": "climax",
-        "svg": """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="22" fill="#1B4332"/><path d="M40 65V26" stroke="#D8F3DC" stroke-width="4.5" stroke-linecap="round"/><circle cx="40" cy="22" r="13" fill="#B7E4C7"/><circle cx="27" cy="30" r="11" fill="#74C69D"/><circle cx="53" cy="30" r="11" fill="#74C69D"/><circle cx="40" cy="34" r="12" fill="#52B788"/></svg>""",
+        "svg": build_card_icon_svg("climax", "#1B4332"),
     },
 ]
 
@@ -185,127 +224,50 @@ def run_tf_inference(ph, moisture, npk, temp):
 
 
 # ---------------------------------------------------------
-# 6. Reactive Botanical Tree SVG Generator
+# 6. Reactive Botanical Forest Background Generator
 # ---------------------------------------------------------
 def build_dynamic_forest_html(species_cfg, confidence, hectares):
     c1 = species_cfg["tree_color_1"]
     c2 = species_cfg["tree_color_2"]
+    c3 = species_cfg["tree_color_3"]
     trunk = species_cfg["trunk_color"]
     biome = species_cfg["biome_type"]
 
-    op = round(0.15 + (confidence / 100.0) * 0.10, 2)
+    # Clearly visible faded opacity (0.20 to 0.30)
+    op = round(0.20 + (confidence / 100.0) * 0.10, 2)
 
-    extra_grove = ""
+    tree_art = get_species_botanical_art(
+        biome_type=biome,
+        trunk_color=trunk,
+        c1=c1,
+        c2=c2,
+        c3=c3,
+        opacity=op,
+    )
+
+    # Positioned cleanly inside the 1440x440 viewport so trunks and canopies are fully visible
+    trees_svg = (
+        # Left Primary Hero Tree (bottom at y=424)
+        f'<g transform="translate(18, 120) scale(1.95)"><g class="tree-sway-1">{tree_art}</g></g>'
+        # Left Secondary Sapling (bottom at y=424)
+        f'<g transform="translate(245, 210) scale(1.38)"><g class="tree-sway-3">{tree_art}</g></g>'
+        # Right Primary Hero Tree (bottom at y=424)
+        f'<g transform="translate(1140, 110) scale(2.02)"><g class="tree-sway-2">{tree_art}</g></g>'
+    )
+
+    # Additional center grove trees appear when Target Planting Area >= 15 Hectares
     if hectares >= 15:
-        if biome == "wetland":
-            hopea_mid = get_hopea_svg_art(
-                trunk_color=trunk,
-                foliage_dark=c1,
-                foliage_mid=c2,
-                foliage_light="#74C69D",
-                water_color="#48CAE4",
-                opacity=op,
-            )
-            extra_grove = (
-                f'<g class="tree-sway-2" transform="translate(430, 185) scale(1.45)">{hopea_mid}</g>'
-                f'<g class="tree-sway-3" transform="translate(860, 175) scale(1.5)">{hopea_mid}</g>'
-            )
-        else:
-            extra_grove = (
-                f'<g class="tree-sway-2" opacity="{op}">'
-                f'<path d="M475 430 C478 370, 480 320, 482 260 L494 260 C496 320, 498 370, 502 430 Z" fill="{trunk}"/>'
-                f'<circle cx="488" cy="232" r="52" fill="{c1}"/>'
-                f'<circle cx="445" cy="258" r="38" fill="{c2}"/>'
-                f'<circle cx="532" cy="254" r="40" fill="{c1}"/>'
-                f'</g>'
-                f'<g class="tree-sway-3" opacity="{op}">'
-                f'<path d="M930 430 C933 365, 935 315, 937 250 L949 250 C951 315, 953 365, 957 430 Z" fill="{trunk}"/>'
-                f'<circle cx="943" cy="222" r="54" fill="{c2}"/>'
-                f'<circle cx="898" cy="250" r="40" fill="{c1}"/>'
-                f'<circle cx="988" cy="246" r="38" fill="{c1}"/>'
-                f'</g>'
-            )
-
-    if biome == "acacia":
-        hero_trees = (
-            f'<g class="tree-sway-1" opacity="{op + 0.04}">'
-            f'<path d="M105 430 C112 365, 118 310, 122 240 L138 240 C140 310, 148 365, 158 430 Z" fill="{trunk}"/>'
-            f'<path d="M126 282 Q82 240 50 218" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<path d="M134 272 Q180 230 215 212" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<ellipse cx="130" cy="198" rx="125" ry="38" fill="{c1}"/>'
-            f'<ellipse cx="82" cy="212" rx="75" ry="26" fill="{c2}"/>'
-            f'<ellipse cx="182" cy="210" rx="78" ry="28" fill="{c2}"/>'
-            f'<ellipse cx="130" cy="180" rx="85" ry="24" fill="{c1}"/>'
-            f'</g>'
-            f'<g class="tree-sway-2" opacity="{op + 0.04}">'
-            f'<path d="M1275 430 C1282 360, 1288 300, 1292 225 L1308 225 C1312 300, 1318 360, 1328 430 Z" fill="{trunk}"/>'
-            f'<path d="M1296 268 Q1248 225 1210 205" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<path d="M1304 258 Q1350 215 1385 198" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<ellipse cx="1300" cy="185" rx="130" ry="40" fill="{c1}"/>'
-            f'<ellipse cx="1245" cy="200" rx="78" ry="28" fill="{c2}"/>'
-            f'<ellipse cx="1355" cy="198" rx="80" ry="28" fill="{c2}"/>'
-            f'</g>'
-        )
-    elif biome == "wetland":
-        # Uses the EXACT same Hopea odorata SVG art as the species card icon!
-        hopea_unit = get_hopea_svg_art(
-            trunk_color=trunk,
-            foliage_dark=c1,
-            foliage_mid=c2,
-            foliage_light="#74C69D",
-            water_color="#48CAE4",
-            opacity=min(0.32, op + 0.06),
-        )
-        hero_trees = (
-            f'<path d="M0 398 Q360 374 720 398 T1440 392" stroke="#48CAE4" stroke-width="3.5" stroke-opacity="{op}"/>'
-            f'<path d="M0 416 Q360 392 720 416 T1440 410" stroke="{c1}" stroke-width="3.5" stroke-opacity="{op}"/>'
-            # Left Primary Hopea odorata
-            f'<g class="tree-sway-1" transform="translate(15, 110) scale(2.05)">{hopea_unit}</g>'
-            # Secondary Left Young Hopea odorata
-            f'<g class="tree-sway-3" transform="translate(230, 200) scale(1.42)">{hopea_unit}</g>'
-            # Right Primary Hopea odorata
-            f'<g class="tree-sway-2" transform="translate(1150, 95) scale(2.15)">{hopea_unit}</g>'
-        )
-    else:
-        hero_trees = (
-            f'<g class="tree-sway-1" opacity="{op + 0.04}">'
-            f'<path d="M98 430 C115 385, 120 325, 124 240 L142 240 C146 325, 150 385, 170 430 Z" fill="{trunk}"/>'
-            f'<path d="M128 292 Q92 264 66 244" stroke="{trunk}" stroke-width="9" stroke-linecap="round"/>'
-            f'<path d="M138 278 Q174 248 202 230" stroke="{trunk}" stroke-width="9" stroke-linecap="round"/>'
-            f'<path d="M133 262 L133 198" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<circle cx="133" cy="178" r="68" fill="{c1}"/>'
-            f'<circle cx="78" cy="218" r="52" fill="{c1}"/>'
-            f'<circle cx="188" cy="215" r="54" fill="{c1}"/>'
-            f'<circle cx="106" cy="154" r="48" fill="{c2}"/>'
-            f'<circle cx="162" cy="156" r="46" fill="{c2}"/>'
-            f'<circle cx="133" cy="206" r="56" fill="{c2}"/>'
-            f'</g>'
-            f'<g class="tree-sway-3" opacity="{op}">'
-            f'<path d="M275 430 C280 385, 282 340, 284 290 L296 290 C298 340, 300 385, 306 430 Z" fill="{trunk}"/>'
-            f'<circle cx="290" cy="264" r="46" fill="{c2}"/>'
-            f'<circle cx="256" cy="285" r="34" fill="{c1}"/>'
-            f'<circle cx="324" cy="282" r="35" fill="{c1}"/>'
-            f'</g>'
-            f'<g class="tree-sway-2" opacity="{op + 0.04}">'
-            f'<path d="M1268 430 C1286 380, 1290 315, 1294 225 L1314 225 C1318 315, 1322 380, 1342 430 Z" fill="{trunk}"/>'
-            f'<path d="M1298 282 Q1260 250 1230 230" stroke="{trunk}" stroke-width="9" stroke-linecap="round"/>'
-            f'<path d="M1308 268 Q1346 238 1376 218" stroke="{trunk}" stroke-width="9" stroke-linecap="round"/>'
-            f'<path d="M1304 248 L1304 185" stroke="{trunk}" stroke-width="8" stroke-linecap="round"/>'
-            f'<circle cx="1304" cy="164" r="72" fill="{c1}"/>'
-            f'<circle cx="1244" cy="206" r="56" fill="{c1}"/>'
-            f'<circle cx="1362" cy="204" r="58" fill="{c1}"/>'
-            f'<circle cx="1276" cy="142" r="50" fill="{c2}"/>'
-            f'<circle cx="1334" cy="144" r="48" fill="{c2}"/>'
-            f'<circle cx="1304" cy="194" r="58" fill="{c2}"/>'
-            f'</g>'
+        trees_svg += (
+            f'<g transform="translate(460, 225) scale(1.28)"><g class="tree-sway-2">{tree_art}</g></g>'
+            f'<g transform="translate(860, 215) scale(1.34)"><g class="tree-sway-3">{tree_art}</g></g>'
         )
 
     return (
         f'<div class="forest-bg">'
-        f'<svg viewBox="0 0 1440 430" preserveAspectRatio="xMidYMax slice" fill="none" xmlns="http://www.w3.org/2000/svg">'
-        f'<path d="M0 365 Q360 305 720 355 T1440 338 L1440 430 L0 430 Z" fill="{c1}" fill-opacity="{round(op * 0.45, 3)}"/>'
-        f'<path d="M0 392 Q480 342 960 385 T1440 368 L1440 430 L0 430 Z" fill="{trunk}" fill-opacity="{round(op * 0.55, 3)}"/>'
-        f'{hero_trees}{extra_grove}'
+        f'<svg viewBox="0 0 1440 440" preserveAspectRatio="xMidYMax slice" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<path d="M0 385 Q360 335 720 378 T1440 362 L1440 440 L0 440 Z" fill="{c1}" fill-opacity="{round(op * 0.45, 3)}"/>'
+        f'<path d="M0 408 Q480 365 960 402 T1440 388 L1440 440 L0 440 Z" fill="{trunk}" fill-opacity="{round(op * 0.55, 3)}"/>'
+        f'{trees_svg}'
         f'</svg></div>'
     )
 
@@ -389,7 +351,7 @@ header[data-testid="stHeader"] {{
     bottom: 0px;
     left: 0px;
     width: 100vw;
-    height: 440px;
+    height: 450px;
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
@@ -399,26 +361,26 @@ header[data-testid="stHeader"] {{
     height: 100%;
 }}
 @keyframes swayTreeA {{
-    0%, 100% {{ transform: rotate(-2.2deg) translateX(0px); }}
-    50% {{ transform: rotate(2.2deg) translateX(5px); }}
+    0%, 100% {{ transform: rotate(-2.4deg); }}
+    50% {{ transform: rotate(2.4deg); }}
 }}
 @keyframes swayTreeB {{
-    0%, 100% {{ transform: rotate(2.4deg) translateX(0px); }}
-    50% {{ transform: rotate(-2.4deg) translateX(-5px); }}
+    0%, 100% {{ transform: rotate(2.6deg); }}
+    50% {{ transform: rotate(-2.6deg); }}
 }}
 .tree-sway-1 {{
     transform-box: fill-box;
-    transform-origin: bottom center;
+    transform-origin: 70px 148px;
     animation: swayTreeA {sway_duration}s ease-in-out infinite;
 }}
 .tree-sway-2 {{
     transform-box: fill-box;
-    transform-origin: bottom center;
+    transform-origin: 70px 148px;
     animation: swayTreeB {round(sway_duration * 0.85, 1)}s ease-in-out infinite;
 }}
 .tree-sway-3 {{
     transform-box: fill-box;
-    transform-origin: bottom center;
+    transform-origin: 70px 148px;
     animation: swayTreeA {round(sway_duration * 1.15, 1)}s ease-in-out infinite;
 }}
 .hero-banner {{
@@ -465,7 +427,7 @@ header[data-testid="stHeader"] {{
 div[data-testid="stVerticalBlockBorderWrapper"] {{
     border-radius: 30px !important;
     border: 1px solid #CBEAD6 !important;
-    background-color: rgba(255, 255, 255, 0.84) !important;
+    background-color: rgba(255, 255, 255, 0.82) !important;
     backdrop-filter: blur(8px);
     padding: 0.85rem !important;
     box-shadow: 0 10px 28px rgba(27, 67, 50, 0.06) !important;
@@ -653,4 +615,3 @@ with col_output:
                 }
             )
             st.dataframe(logits_df, use_container_width=True, hide_index=True)
-            

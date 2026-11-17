@@ -26,9 +26,10 @@ def get_species_botanical_art(
     opacity=1.0,
 ):
     """Returns a 140x160 botanical tree SVG group shared by both the card icon and background."""
+    bbox = '<rect x="0" y="0" width="140" height="160" fill="transparent"/>'
     if biome_type == "acacia":
         return (
-            f'<g opacity="{opacity}">'
+            f'<g opacity="{opacity}">{bbox}'
             f'<path d="M58 148 C63 118, 65 95, 66 72 L74 72 C75 95, 77 118, 82 148 Z" fill="{trunk_color}"/>'
             f'<path d="M68 92 Q48 76 34 68" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
             f'<path d="M72 88 Q92 72 106 66" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
@@ -40,7 +41,7 @@ def get_species_botanical_art(
         )
     elif biome_type == "wetland":
         return (
-            f'<g opacity="{opacity}">'
+            f'<g opacity="{opacity}">{bbox}'
             f'<path d="M16 148 Q70 140 124 148" stroke="#48CAE4" stroke-width="3" stroke-linecap="round" fill="none"/>'
             f'<path d="M28 154 Q70 148 112 154" stroke="{c3}" stroke-width="2" stroke-linecap="round" fill="none"/>'
             f'<path d="M54 144 C62 134, 64 112, 65 44 L75 44 C76 112, 78 134, 86 144 L74 144 L70 132 L66 144 Z" fill="{trunk_color}"/>'
@@ -53,7 +54,7 @@ def get_species_botanical_art(
         )
     elif biome_type == "climax":
         return (
-            f'<g opacity="{opacity}">'
+            f'<g opacity="{opacity}">{bbox}'
             f'<path d="M56 148 C62 122, 64 96, 65 66 L75 66 C76 96, 78 122, 84 148 Z" fill="{trunk_color}"/>'
             f'<circle cx="70" cy="46" r="28" fill="{c1}"/>'
             f'<circle cx="44" cy="64" r="22" fill="{c1}"/>'
@@ -65,7 +66,7 @@ def get_species_botanical_art(
         )
     else:
         return (
-            f'<g opacity="{opacity}">'
+            f'<g opacity="{opacity}">{bbox}'
             f'<path d="M56 148 C62 122, 64 98, 65 70 L75 70 C76 98, 78 122, 84 148 Z" fill="{trunk_color}"/>'
             f'<path d="M68 92 Q50 78 38 70" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
             f'<path d="M72 86 Q90 74 102 66" stroke="{trunk_color}" stroke-width="4" stroke-linecap="round" fill="none"/>'
@@ -189,10 +190,11 @@ def set_preset(ph, moisture, npk, temp):
 # ---------------------------------------------------------
 TF_WEIGHTS = tf.constant(
     [
-        [4.5, -1.5, -2.5, 0.5],
-        [-1.5, -2.0, 5.5, 0.0],
-        [1.0, 0.5, -0.5, 5.0],
-        [0.2, 3.8, 0.1, -0.5],
+        # Col 0: Acacia | Col 1: Dipterocarpus | Col 2: Hopea | Col 3: Shorea
+        [5.0, -2.0, -0.5, 1.5],   # norm_ph
+        [-1.5, -1.5, 6.0, -1.5],  # norm_moisture
+        [-1.0, 5.5, -1.5, 5.5],   # norm_npk
+        [1.0, 1.5, 0.0, -1.5],    # norm_temp
     ],
     dtype=tf.float32,
 )

@@ -130,10 +130,10 @@ SPECIES_DATA = [
 ]
 
 # ---------------------------------------------------------
-# 3. Dynamic TensorFlow Engine
+# 3. Dynamic TensorFlow Engine (High-Confidence Softmax)
 # ---------------------------------------------------------
 def run_tf_inference(ph, moisture, npk, temp):
-    """Executes normalized tensor matrix multiplication and Softmax activation."""
+    """Executes normalized tensor matrix multiplication and scaled Softmax activation."""
     norm_ph = (ph - 4.0) / 5.0
     norm_moisture = moisture / 100.0
     norm_npk = (npk - 10) / 290.0
@@ -143,17 +143,19 @@ def run_tf_inference(ph, moisture, npk, temp):
         [[norm_ph, norm_moisture, norm_npk, norm_temp]], dtype=tf.float32
     )
 
+    # Stronger feature separation weights
     weights = tf.constant(
         [
-            [2.5, -1.0, -2.0, 0.5],
-            [-1.0, -1.5, 3.5, 0.0],
-            [1.0, 0.5, 0.0, 3.0],
-            [0.2, 1.8, 0.1, -0.5],
+            [4.5, -1.5, -2.5, 0.5],  # pH influence
+            [-1.5, -2.0, 5.5, 0.0],  # Moisture influence
+            [1.0, 0.5, -0.5, 5.0],  # NPK influence
+            [0.2, 3.8, 0.1, -0.5],  # Temperature influence
         ],
         dtype=tf.float32,
     )
 
-    logits = tf.matmul(input_tensor, weights)
+    # Matrix multiplication + logit scaling for sharper class separation
+    logits = tf.matmul(input_tensor, weights) * 2.2
     probabilities = tf.nn.softmax(logits).numpy()[0]
 
     predicted_idx = int(np.argmax(probabilities))

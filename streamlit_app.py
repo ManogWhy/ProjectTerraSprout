@@ -511,21 +511,29 @@ with col_input:
         st.subheader("📊 Field Sensor Inputs")
         st.caption("Select a field preset or fine-tune IoT probe readings:")
 
-        p1, p2, p3 = st.columns(3)
+        p1, p2 = st.columns(2)
         p1.button(
-            "🌊 Wetland",
+            "🌊 Wetland (Hopea)",
             use_container_width=True,
             on_click=set_preset,
             args=(5.2, 88, 110, 26.5),
         )
         p2.button(
-            "🏜️ Degraded",
+            "🏜️ Degraded (Acacia)",
             use_container_width=True,
             on_click=set_preset,
             args=(8.2, 22, 95, 31.0),
         )
+
+        p3, p4 = st.columns(2)
         p3.button(
-            "🌳 Highland",
+            "🌲 Lowland (Dipterocarpus)",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(4.5, 35, 275, 27.0),
+        )
+        p4.button(
+            "🌳 Highland (Shorea)",
             use_container_width=True,
             on_click=set_preset,
             args=(6.4, 52, 265, 24.0),

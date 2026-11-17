@@ -4,7 +4,7 @@ import streamlit as st
 import tensorflow as tf
 
 # ---------------------------------------------------------
-# 1. Page Configuration & Flagship Eco-Tech CSS
+# 1. Page Configuration & Flagship Eco-Tech CSS + Animated Forest BG
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Project TerraSprout | Team Lemon Tea",
@@ -18,20 +18,65 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* Global Typography & Canvas */
+    /* Global Typography & Base Canvas */
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
     .stApp {
-        background: radial-gradient(circle at top right, #E8F5E9 0%, #F4F9F6 45%, #EDF6F2 100%);
+        background: radial-gradient(circle at top right, #E6F4EA 0%, #F3F9F5 50%, #EAF5EE 100%);
     }
 
-    /* Hide default Streamlit header bar clutter for a cleaner stage look */
+    /* Hide default Streamlit header bar clutter */
     header[data-testid="stHeader"] {
         background: transparent !important;
     }
 
-    /* Curvy Hero Banner with Subtle Glass Highlight */
+    /* Keep Main App Content Above the Animated Background */
+    .main .block-container {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Animated Faded Background Forest Layer */
+    .forest-bg {
+        position: fixed;
+        bottom: -10px;
+        left: 0;
+        width: 100vw;
+        height: 440px;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .forest-bg svg {
+        width: 100%;
+        height: 100%;
+    }
+    @keyframes swaySlow {
+        0%, 100% { transform: rotate(-1.6deg) translateX(0px); }
+        50% { transform: rotate(1.6deg) translateX(4px); }
+    }
+    @keyframes swayMedium {
+        0%, 100% { transform: rotate(1.8deg) translateX(0px); }
+        50% { transform: rotate(-1.8deg) translateX(-4px); }
+    }
+    .tree-sway-1 {
+        transform-box: fill-box;
+        transform-origin: bottom center;
+        animation: swaySlow 7.5s ease-in-out infinite;
+    }
+    .tree-sway-2 {
+        transform-box: fill-box;
+        transform-origin: bottom center;
+        animation: swayMedium 6s ease-in-out infinite;
+    }
+    .tree-sway-3 {
+        transform-box: fill-box;
+        transform-origin: bottom center;
+        animation: swaySlow 9s ease-in-out infinite;
+    }
+
+    /* Curvy Hero Banner */
     .hero-banner {
         background: linear-gradient(135deg, #123524 0%, #1B4332 50%, #2D6A4F 100%);
         padding: 2rem 2.6rem;
@@ -72,19 +117,19 @@ st.markdown(
         font-weight: 400;
     }
 
-    /* Curvy Main Panels */
+    /* Frosted Curvy Main Panels (Allows Faded Trees to Peek Behind) */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         border-radius: 30px !important;
         border: 1px solid #CBEAD6 !important;
-        background-color: rgba(255, 255, 255, 0.94) !important;
-        backdrop-filter: blur(8px);
+        background-color: rgba(255, 255, 255, 0.86) !important;
+        backdrop-filter: blur(10px);
         padding: 0.85rem !important;
         box-shadow: 0 10px 28px rgba(27, 67, 50, 0.06) !important;
     }
 
     /* Curvy KPI Metric Cards */
     div[data-testid="stMetric"] {
-        background: linear-gradient(180deg, #FFFFFF 0%, #F2F9F5 100%);
+        background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(242,249,245,0.95) 100%);
         border: 1px solid #CBEAD6;
         padding: 16px 20px;
         border-radius: 24px !important;
@@ -156,14 +201,12 @@ st.markdown(
         box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
     }
 
-    /* Curvy Tabs */
+    /* Curvy Tabs, Inputs & Alerts */
     button[data-baseweb="tab"] {
         border-radius: 999px !important;
         padding: 0.45rem 1.1rem !important;
         font-weight: 600 !important;
     }
-
-    /* Curvy Inputs & Alerts */
     div[data-baseweb="input"], div[data-baseweb="base-input"] {
         border-radius: 20px !important;
     }
@@ -173,12 +216,64 @@ st.markdown(
 
     /* Curvy Sidebar */
     section[data-testid="stSidebar"] > div {
-        background-color: #FFFFFF;
+        background-color: rgba(255, 255, 255, 0.96);
         border-top-right-radius: 34px;
         border-bottom-right-radius: 34px;
         border-right: 1px solid #CBEAD6;
+        z-index: 3;
     }
     </style>
+
+    <!-- Dynamic Faded Swaying Forest Background -->
+    <div class="forest-bg">
+        <svg viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Distant Misty Hills -->
+            <path d="M0 340 Q360 270 720 330 T1440 310 L1440 420 L0 420 Z" fill="#2D6A4F" fill-opacity="0.05"/>
+            <path d="M0 370 Q480 310 960 365 T1440 345 L1440 420 L0 420 Z" fill="#1B4332" fill-opacity="0.06"/>
+
+            <!-- Left Pine Cluster -->
+            <g class="tree-sway-1" fill="#2D6A4F" fill-opacity="0.09">
+                <rect x="76" y="290" width="12" height="130"/>
+                <polygon points="82,95 25,220 55,220 15,310 149,310 109,220 139,220"/>
+            </g>
+            <g class="tree-sway-2" fill="#40916C" fill-opacity="0.08">
+                <rect x="175" y="320" width="10" height="100"/>
+                <polygon points="180,155 135,255 160,255 125,335 235,335 200,255 225,255"/>
+            </g>
+
+            <!-- Left-Center Broadleaf Tree -->
+            <g class="tree-sway-3" fill="#1B4332" fill-opacity="0.065">
+                <rect x="335" y="310" width="14" height="110"/>
+                <circle cx="342" cy="245" r="58"/>
+                <circle cx="305" cy="275" r="42"/>
+                <circle cx="380" cy="275" r="42"/>
+            </g>
+
+            <!-- Center Distant Grove -->
+            <g class="tree-sway-1" fill="#2D6A4F" fill-opacity="0.055">
+                <polygon points="620,190 580,290 605,290 570,375 670,375 635,290 660,290"/>
+                <polygon points="710,165 665,275 690,275 650,375 770,375 730,275 755,275"/>
+            </g>
+
+            <!-- Right-Center Canopy Tree -->
+            <g class="tree-sway-2" fill="#40916C" fill-opacity="0.07">
+                <rect x="1045" y="305" width="14" height="115"/>
+                <circle cx="1052" cy="235" r="62"/>
+                <circle cx="1010" cy="270" r="45"/>
+                <circle cx="1095" cy="268" r="44"/>
+            </g>
+
+            <!-- Right Pine Cluster -->
+            <g class="tree-sway-3" fill="#2D6A4F" fill-opacity="0.085">
+                <rect x="1245" y="315" width="10" height="105"/>
+                <polygon points="1250,145 1205,245 1230,245 1195,330 1305,330 1270,245 1295,245"/>
+            </g>
+            <g class="tree-sway-1" fill="#1B4332" fill-opacity="0.095">
+                <rect x="1345" y="280" width="14" height="140"/>
+                <polygon points="1352,80 1290,210 1325,210 1280,305 1424,305 1379,210 1414,210"/>
+            </g>
+        </svg>
+    </div>
     """,
     unsafe_allow_html=True,
 )

@@ -305,15 +305,15 @@ header[data-testid="stHeader"] {
 div[data-testid="stVerticalBlockBorderWrapper"] {
     border-radius: 30px !important;
     border: 1px solid #CBEAD6 !important;
-    background-color: rgba(255, 255, 255, 0.82) !important;
-    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px);
     padding: 0.85rem !important;
-    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.06) !important;
+    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.08) !important;
     position: relative;
     z-index: 3;
 }
 div[data-testid="stMetric"] {
-    background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(242,249,245,0.95) 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(242,249,245,0.99) 100%);
     border: 1px solid #CBEAD6;
     padding: 16px 20px;
     border-radius: 24px !important;
@@ -348,7 +348,7 @@ div[data-testid="stMetric"] {
     margin-top: 0.5rem;
 }
 .prob-row {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.97);
     border: 1px solid #D8F3DC;
     border-radius: 16px;
     padding: 0.55rem 0.9rem;
@@ -406,7 +406,7 @@ div[data-testid="stAlert"] {
     border-radius: 22px !important;
 }
 section[data-testid="stSidebar"] > div {
-    background-color: rgba(255, 255, 255, 0.96);
+    background-color: rgba(255, 255, 255, 0.98);
     border-top-right-radius: 34px;
     border-bottom-right-radius: 34px;
     border-right: 1px solid #CBEAD6;
@@ -493,7 +493,6 @@ with st.sidebar:
         - **AI Engine:** TensorFlow
         """
     )
-    
     st.divider()
     st.caption(f"🟢 Active Biome: **{top_species['name']}**")
 

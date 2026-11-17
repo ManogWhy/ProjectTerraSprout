@@ -4,7 +4,7 @@ import streamlit as st
 import tensorflow as tf
 
 # ---------------------------------------------------------
-# 1. Page Configuration & Custom Forest Theme CSS
+# 1. Page Configuration & Ultra-Curvy Organic CSS
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Project TerraSprout | Team Lemon Tea",
@@ -16,18 +16,19 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Main background & typography */
+    /* Main background */
     .stApp {
         background-color: #F4F8F5;
     }
-    /* Custom Header Banner */
+
+    /* Curvy Hero Banner */
     .hero-banner {
         background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
-        padding: 1.8rem 2rem;
-        border-radius: 14px;
+        padding: 2rem 2.5rem;
+        border-radius: 32px;
         color: white;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+        box-shadow: 0 8px 24px rgba(27, 67, 50, 0.16);
     }
     .hero-title {
         font-size: 2.1rem;
@@ -38,30 +39,56 @@ st.markdown(
     .hero-subtitle {
         font-size: 1rem;
         color: #D8F3DC;
-        margin-top: 0.3rem;
+        margin-top: 0.35rem;
     }
-    /* Metric & Card styling */
+
+    /* Curvy Main Containers (st.container(border=True)) */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 28px !important;
+        border: 1px solid #D8F3DC !important;
+        background-color: #FFFFFF !important;
+        padding: 0.6rem !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    /* Curvy KPI Metric Cards */
     div[data-testid="stMetric"] {
-        background-color: #FFFFFF;
+        background-color: #F8FBF9;
         border: 1px solid #D8F3DC;
-        padding: 15px 18px;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        padding: 16px 20px;
+        border-radius: 24px !important;
+        box-shadow: 0 4px 12px rgba(45, 106, 79, 0.05);
     }
-    /* Primary Button Styling */
+
+    /* Pill-Shaped Primary Button */
     .stButton > button {
         background: linear-gradient(90deg, #2D6A4F 0%, #40916C 100%);
         color: white;
         font-weight: 600;
         border: none;
-        border-radius: 10px;
-        padding: 0.65rem 1rem;
-        transition: all 0.2s ease;
+        border-radius: 999px !important;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.25s ease;
     }
     .stButton > button:hover {
         background: linear-gradient(90deg, #1B4332 0%, #2D6A4F 100%);
         color: #FFFFFF;
-        box-shadow: 0 4px 10px rgba(45, 106, 79, 0.3);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(45, 106, 79, 0.3);
+    }
+
+    /* Curvy Number Inputs & Alerts */
+    div[data-baseweb="input"], div[data-baseweb="base-input"] {
+        border-radius: 20px !important;
+    }
+    div[data-testid="stAlert"] {
+        border-radius: 22px !important;
+    }
+
+    /* Curvy Sidebar */
+    section[data-testid="stSidebar"] > div {
+        border-top-right-radius: 32px;
+        border-bottom-right-radius: 32px;
     }
     </style>
     """,
@@ -154,10 +181,10 @@ with st.sidebar:
         """
     )
     st.divider()
-    st.caption("v2.0 • Production Demo Build")
+    st.caption("v2.1 • Organic UI Build")
 
 # ---------------------------------------------------------
-# 5. Hero Banner & Top Sensor Telemetry Row
+# 5. Hero Banner
 # ---------------------------------------------------------
 st.markdown(
     """

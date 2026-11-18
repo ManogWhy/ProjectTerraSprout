@@ -227,12 +227,23 @@ def run_tf_inference(ph, moisture, npk, temp):
 
 
 # ---------------------------------------------------------
-# 6. Static CSS (Injected Once — Zero Re-Parse Lag)
+# 6. Static CSS (Dark Forest Green Typography + High Opacity)
 # ---------------------------------------------------------
 STATIC_CSS = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #123524 !important;
+}
+.main h1, .main h2, .main h3, .main h4, .main p, .main label, .main span,
+section[data-testid="stSidebar"] h1, section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3, section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span, section[data-testid="stSidebar"] label {
+    color: #123524 !important;
+}
+.main [data-testid="stCaptionContainer"] p,
+section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {
+    color: #2D6A4F !important;
 }
 header[data-testid="stHeader"] {
     background: transparent !important;
@@ -282,7 +293,7 @@ header[data-testid="stHeader"] {
     display: inline-block;
     background: rgba(216, 243, 220, 0.16);
     border: 1px solid rgba(216, 243, 220, 0.35);
-    color: #B7E4C7;
+    color: #B7E4C7 !important;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.6px;
@@ -297,10 +308,11 @@ header[data-testid="stHeader"] {
     margin: 0;
     letter-spacing: -0.6px;
     line-height: 1.15;
+    color: #FFFFFF !important;
 }
 .hero-subtitle {
     font-size: 1rem;
-    color: #D8F3DC;
+    color: #D8F3DC !important;
     margin-top: 0.4rem;
     font-weight: 400;
 }
@@ -321,6 +333,14 @@ div[data-testid="stMetric"] {
     border-radius: 24px !important;
     box-shadow: 0 4px 14px rgba(45, 106, 79, 0.06);
 }
+div[data-testid="stMetricValue"] > div {
+    color: #123524 !important;
+    font-weight: 800 !important;
+}
+div[data-testid="stMetricLabel"] p {
+    color: #1B4332 !important;
+    font-weight: 700 !important;
+}
 .species-card {
     background: linear-gradient(135deg, #E9F5EE 0%, #D8F3DC 100%);
     border: 1.5px solid #95D5B2;
@@ -334,13 +354,13 @@ div[data-testid="stMetric"] {
 }
 .species-card h4 {
     margin: 0 0 0.25rem 0;
-    color: #123524;
+    color: #123524 !important;
     font-size: 1.35rem;
     font-weight: 800;
 }
 .species-card p {
     margin: 0.15rem 0;
-    color: #1B4332;
+    color: #1B4332 !important;
     font-size: 0.93rem;
 }
 .prob-list {
@@ -360,7 +380,7 @@ div[data-testid="stMetric"] {
     justify-content: space-between;
     font-size: 0.88rem;
     font-weight: 700;
-    color: #1B4332;
+    color: #123524 !important;
     margin-bottom: 0.32rem;
 }
 .prob-track {
@@ -382,13 +402,16 @@ div[data-testid="stMetric"] {
 }
 button[kind="primary"] {
     background: linear-gradient(90deg, #1B4332 0%, #2D6A4F 50%, #40916C 100%) !important;
-    color: white !important;
+    color: #FFFFFF !important;
     border: none !important;
     padding: 0.8rem 1.6rem !important;
 }
+button[kind="primary"] p, button[kind="primary"] span {
+    color: #FFFFFF !important;
+}
 button[kind="secondary"] {
     background-color: #EDF6F0 !important;
-    color: #1B4332 !important;
+    color: #123524 !important;
     border: 1px solid #95D5B2 !important;
     font-size: 0.82rem !important;
 }
@@ -400,9 +423,15 @@ button[data-baseweb="tab"] {
     border-radius: 999px !important;
     padding: 0.45rem 1.1rem !important;
     font-weight: 600 !important;
+    color: #1B4332 !important;
+}
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #123524 !important;
+    font-weight: 800 !important;
 }
 div[data-baseweb="input"], div[data-baseweb="base-input"] {
     border-radius: 20px !important;
+    color: #123524 !important;
 }
 div[data-testid="stAlert"] {
     border-radius: 22px !important;
@@ -599,7 +628,7 @@ with col_output:
             # Render Species Card + Ecological Impact + Probability Bars in ONE single DOM update
             st.markdown(
                 f'<div class="species-card"><div>{top_species["svg"]}</div><div><h4>{top_species["name"]}</h4><p><strong>Classification:</strong> {top_species["tag"]}</p><p><strong>Ideal Soil:</strong> {top_species["soil_pref"]}</p></div></div>'
-                f'<p style="margin:0.4rem 0 0.8rem 0;color:#1B4332;"><strong>🌍 Ecological Impact:</strong> {top_species["benefit"]}</p>'
+                f'<p style="margin:0.4rem 0 0.8rem 0;color:#123524;"><strong>🌍 Ecological Impact:</strong> {top_species["benefit"]}</p>'
                 f'<p style="margin:0 0 0.35rem 0;font-weight:700;color:#123524;">📈 Species Probability Distribution (Softmax Output)</p>'
                 f'{prob_bars_html}',
                 unsafe_allow_html=True,

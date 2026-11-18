@@ -288,4 +288,484 @@ header[data-testid="stHeader"] svg {
     overflow: hidden;
 }
 .forest-bg svg {
-    width: 10
+    width: 100%;
+    height: 100%;
+}
+@keyframes swayTreeA {
+    0%, 100% { transform: rotate(-2.4deg); }
+    50% { transform: rotate(2.4deg); }
+}
+@keyframes swayTreeB {
+    0%, 100% { transform: rotate(2.6deg); }
+    50% { transform: rotate(-2.6deg); }
+}
+
+/* Hero Banner (Keep crisp white & mint text on dark green gradient) */
+.hero-banner {
+    background: linear-gradient(135deg, #123524 0%, #1B4332 50%, #2D6A4F 100%);
+    padding: 1.8rem 2.5rem;
+    border-radius: 34px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 12px 30px rgba(27, 67, 50, 0.22);
+    border: 1px solid rgba(183, 228, 199, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 3;
+}
+.hero-badge {
+    display: inline-block;
+    background: rgba(216, 243, 220, 0.16);
+    border: 1px solid rgba(216, 243, 220, 0.35);
+    color: #B7E4C7 !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 0.6rem;
+}
+.hero-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+    color: #FFFFFF !important;
+}
+.hero-subtitle {
+    font-size: 1rem;
+    color: #D8F3DC !important;
+    margin-top: 0.4rem;
+    font-weight: 400;
+}
+
+/* High-Opacity Frosted Widget Containers */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 30px !important;
+    border: 1.5px solid #CBEAD6 !important;
+    background-color: rgba(255, 255, 255, 0.97) !important;
+    backdrop-filter: blur(12px);
+    padding: 0.95rem !important;
+    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.08) !important;
+    position: relative;
+    z-index: 3;
+}
+
+/* Metrics */
+div[data-testid="stMetric"] {
+    background: linear-gradient(180deg, rgba(255,255,255,0.99) 0%, rgba(242,249,245,0.99) 100%) !important;
+    border: 1px solid #CBEAD6 !important;
+    padding: 16px 20px;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 14px rgba(45, 106, 79, 0.06);
+}
+div[data-testid="stMetricValue"] > div {
+    color: #123524 !important;
+    font-weight: 800 !important;
+}
+div[data-testid="stMetricLabel"] p {
+    color: #1B4332 !important;
+    font-weight: 700 !important;
+}
+div[data-testid="stMetricDelta"] {
+    background-color: #D8F3DC !important;
+    border-radius: 999px !important;
+    padding: 2px 10px !important;
+}
+div[data-testid="stMetricDelta"] > div,
+div[data-testid="stMetricDelta"] svg {
+    color: #123524 !important;
+    fill: #123524 !important;
+    font-weight: 700 !important;
+}
+
+/* Species Card */
+.species-card {
+    background: linear-gradient(135deg, #E9F5EE 0%, #D8F3DC 100%);
+    border: 1.5px solid #95D5B2;
+    border-radius: 26px;
+    padding: 1.35rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    margin: 0.9rem 0 1rem 0;
+    box-shadow: 0 6px 18px rgba(45, 106, 79, 0.08);
+}
+.species-card h4 {
+    margin: 0 0 0.25rem 0;
+    color: #123524 !important;
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+.species-card p {
+    margin: 0.15rem 0;
+    color: #1B4332 !important;
+    font-size: 0.93rem;
+}
+
+/* Probability Bars */
+.prob-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: 0.5rem;
+}
+.prob-row {
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid #D8F3DC;
+    border-radius: 16px;
+    padding: 0.55rem 0.9rem;
+}
+.prob-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #123524 !important;
+    margin-bottom: 0.32rem;
+}
+.prob-track {
+    width: 100%;
+    height: 10px;
+    background: #E6F4EA;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.prob-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.25s ease, background-color 0.25s ease;
+}
+
+/* Buttons */
+.stButton > button {
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+}
+button[kind="primary"] {
+    background: linear-gradient(90deg, #1B4332 0%, #2D6A4F 50%, #40916C 100%) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    padding: 0.8rem 1.6rem !important;
+}
+button[kind="primary"] p, button[kind="primary"] span {
+    color: #FFFFFF !important;
+}
+button[kind="secondary"] {
+    background-color: #EDF6F0 !important;
+    color: #123524 !important;
+    border: 1px solid #95D5B2 !important;
+    font-size: 0.82rem !important;
+}
+button[kind="secondary"]:hover {
+    background-color: #D8F3DC !important;
+    border-color: #2D6A4F !important;
+}
+
+/* Sliders (Replace default red accent with forest green) */
+div[data-baseweb="slider"] div[role="slider"] {
+    background-color: #1B4332 !important;
+    border: 2px solid #FFFFFF !important;
+    box-shadow: 0 2px 6px rgba(18, 53, 36, 0.3) !important;
+}
+div[data-baseweb="slider"] > div > div > div:nth-child(2) {
+    background-color: #2D6A4F !important;
+}
+div[data-baseweb="slider"] [data-testid="stThumbValue"] {
+    color: #1B4332 !important;
+    font-weight: 700 !important;
+}
+
+/* Number Input (Override dark-mode black box with clean light mint input) */
+div[data-baseweb="input"],
+div[data-baseweb="base-input"],
+div[data-testid="stNumberInput"] > div {
+    background-color: #F2F9F5 !important;
+    border: 1px solid #95D5B2 !important;
+    border-radius: 18px !important;
+    color: #123524 !important;
+}
+div[data-testid="stNumberInput"] input {
+    background-color: transparent !important;
+    color: #123524 !important;
+    font-weight: 700 !important;
+    -webkit-text-fill-color: #123524 !important;
+}
+div[data-testid="stNumberInput"] button {
+    background-color: #E4F5E9 !important;
+    color: #123524 !important;
+    border-left: 1px solid #CBEAD6 !important;
+}
+div[data-testid="stNumberInput"] button svg {
+    fill: #123524 !important;
+}
+
+/* Tabs (Replace red underline with forest green) */
+button[data-baseweb="tab"] {
+    border-radius: 999px !important;
+    padding: 0.45rem 1.1rem !important;
+    font-weight: 600 !important;
+    color: #2D6A4F !important;
+}
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #123524 !important;
+    font-weight: 800 !important;
+}
+div[data-baseweb="tab-highlight"] {
+    background-color: #1B4332 !important;
+}
+
+/* Callout Boxes (st.success & st.info soft mint cards) */
+div[data-testid="stAlert"] {
+    background-color: #E4F5E9 !important;
+    border: 1px solid #95D5B2 !important;
+    border-radius: 22px !important;
+    color: #123524 !important;
+}
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] strong {
+    color: #123524 !important;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    border-right: 1px solid #CBEAD6 !important;
+}
+section[data-testid="stSidebar"] > div {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+}
+section[data-testid="stSidebar"] hr {
+    border-color: #CBEAD6 !important;
+}
+</style>"""
+
+st.markdown(STATIC_CSS, unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# 7. Run Instant TensorFlow Inference & Build Synced Layer
+# ---------------------------------------------------------
+idx, confidence, probs, norm_vals, raw_logits = run_tf_inference(
+    st.session_state.ph,
+    st.session_state.moisture,
+    st.session_state.npk,
+    st.session_state.temp,
+)
+top_species = SPECIES_DATA[idx]
+sway_duration = max(3.0, round(10.5 - (st.session_state.temp - 15.0) * 0.22, 1))
+
+
+def build_dynamic_forest_html(species_cfg, confidence_val, hectares_val, sway_sec):
+    c1 = species_cfg["tree_color_1"]
+    c2 = species_cfg["tree_color_2"]
+    c3 = species_cfg["tree_color_3"]
+    trunk = species_cfg["trunk_color"]
+    biome = species_cfg["biome_type"]
+
+    op = round(0.20 + (confidence_val / 100.0) * 0.10, 2)
+
+    tree_art = get_species_botanical_art(
+        biome_type=biome,
+        trunk_color=trunk,
+        c1=c1,
+        c2=c2,
+        c3=c3,
+        opacity=op,
+    )
+
+    trees_svg = (
+        f'<g transform="translate(18, 120) scale(1.95)"><g style="transform-box:fill-box;transform-origin:70px 148px;animation:swayTreeA {sway_sec}s ease-in-out infinite;">{tree_art}</g></g>'
+        f'<g transform="translate(245, 210) scale(1.38)"><g style="transform-box:fill-box;transform-origin:70px 148px;animation:swayTreeA {round(sway_sec * 1.15, 1)}s ease-in-out infinite;">{tree_art}</g></g>'
+        f'<g transform="translate(1140, 110) scale(2.02)"><g style="transform-box:fill-box;transform-origin:70px 148px;animation:swayTreeB {round(sway_sec * 0.85, 1)}s ease-in-out infinite;">{tree_art}</g></g>'
+    )
+
+    if hectares_val >= 15:
+        trees_svg += (
+            f'<g transform="translate(460, 225) scale(1.28)"><g style="transform-box:fill-box;transform-origin:70px 148px;animation:swayTreeB {round(sway_sec * 0.9, 1)}s ease-in-out infinite;">{tree_art}</g></g>'
+            f'<g transform="translate(860, 215) scale(1.34)"><g style="transform-box:fill-box;transform-origin:70px 148px;animation:swayTreeA {round(sway_sec * 1.1, 1)}s ease-in-out infinite;">{tree_art}</g></g>'
+        )
+
+    return (
+        f'<style>.stApp, [data-testid="stAppViewContainer"]{{background:radial-gradient(circle at top right,{species_cfg["bg_tint"]} 0%,#F4F9F6 55%,#EAF5EE 100%)!important;}}</style>'
+        f'<div class="forest-bg">'
+        f'<svg viewBox="0 0 1440 440" preserveAspectRatio="xMidYMax slice" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<path d="M0 385 Q360 335 720 378 T1440 362 L1440 440 L0 440 Z" fill="{c1}" fill-opacity="{round(op * 0.45, 3)}"/>'
+        f'<path d="M0 408 Q480 365 960 402 T1440 388 L1440 440 L0 440 Z" fill="{trunk}" fill-opacity="{round(op * 0.55, 3)}"/>'
+        f'{trees_svg}'
+        f'</svg></div>'
+    )
+
+
+# Render Background & Hero Banner in the same immediate flush
+st.markdown(
+    build_dynamic_forest_html(
+        top_species, confidence, st.session_state.hectares, sway_duration
+    ),
+    unsafe_allow_html=True,
+)
+
+with st.sidebar:
+    st.markdown("### 🍃 Team Lemon Tea")
+    st.caption("2026 Han Chiang High School AI Vanguard Challenge")
+    st.divider()
+    st.markdown("**🎯 UN SDG Alignment**")
+    st.success(
+        "**SDG 15: Life on Land**\n\nAI-guided native species matching to maximize sapling survival and carbon capture."
+    )
+    st.markdown("**⚙️ System Stack**")
+    st.markdown(
+        """
+        - **Frontend:** Streamlit
+        - **AI Engine:** TensorFlow
+        """
+    )
+    st.divider()
+    st.caption(f"🟢 Active Biome: **{top_species['name']}**")
+
+st.markdown(
+    f'<div class="hero-banner"><div><div class="hero-badge">● Live TensorFlow Inference • Active Biome: {top_species["name"]}</div><div class="hero-title">🌱 Project TerraSprout</div><div class="hero-subtitle">Intelligent Soil Telemetry, Carbon Modeling & Native Reforestation Matchmaker</div></div><div>{HERO_SVG}</div></div>',
+    unsafe_allow_html=True,
+)
+
+# ---------------------------------------------------------
+# 8. Main Interactive Columns (Synced Single-Frame Output)
+# ---------------------------------------------------------
+col_input, col_output = st.columns([1, 1.32], gap="large")
+
+with col_input:
+    with st.container(border=True):
+        st.subheader("📊 Field Sensor Inputs")
+        st.caption("Select a field preset or fine-tune IoT probe readings:")
+
+        p1, p2 = st.columns(2)
+        p1.button(
+            "🌊 Wetland (Hopea)",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(5.2, 88, 110, 26.5),
+        )
+        p2.button(
+            "🏜️ Degraded (Acacia)",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(8.2, 22, 95, 31.0),
+        )
+
+        p3, p4 = st.columns(2)
+        p3.button(
+            "🌲 Lowland (Dipterocarpus)",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(4.5, 35, 275, 27.0),
+        )
+        p4.button(
+            "🌳 Highland (Shorea)",
+            use_container_width=True,
+            on_click=set_preset,
+            args=(6.4, 52, 265, 24.0),
+        )
+
+        st.write("")
+        soil_ph = st.slider("🧪 Soil pH Level", 4.0, 9.0, key="ph", step=0.1)
+        moisture = st.slider("💧 Soil Moisture Content (%)", 0, 100, key="moisture")
+        npk = st.slider("🌿 NPK Nutrient Index (PPM)", 10, 300, key="npk")
+        temp = st.number_input(
+            "🌡️ Ambient Temperature (°C)", 15.0, 45.0, key="temp", step=0.5
+        )
+
+        st.divider()
+        st.markdown("**🌍 Reforestation Plot Scale**")
+        hectares = st.slider("Target Planting Area (Hectares)", 1, 50, key="hectares")
+
+        st.write("")
+        st.button(
+            "🚀 Run TensorFlow Analysis",
+            type="primary",
+            use_container_width=True,
+        )
+
+with col_output:
+    with st.container(border=True):
+        trees_planted = hectares * 1100
+        co2_10yr = round(top_species["co2_per_ha_yr"] * hectares * 10, 1)
+
+        tab_overview, tab_xai = st.tabs(
+            ["🌿 Species & Ecological Impact", "🔍 Explainable AI (Tensor Math)"]
+        )
+
+        with tab_overview:
+            st.write("")
+            m1, m2, m3 = st.columns(3)
+            m1.metric("AI Confidence", f"{confidence:.1f}%", "Optimal Match")
+            m2.metric(
+                "Est. Survival",
+                top_species["survival_rate"],
+                f"{trees_planted:,} Trees",
+            )
+            m3.metric(
+                "10-Yr CO₂ Offset", f"{co2_10yr:,.0f} t", f"{hectares} Hectares"
+            )
+
+            # Build instant GPU-accelerated probability bars synced with the background trees
+            prob_bars_html = '<div class="prob-list">'
+            for i, s in enumerate(SPECIES_DATA):
+                pct = round(float(probs[i]) * 100, 1)
+                bar_color = top_species["tree_color_1"] if i == idx else "#95D5B2"
+                badge = " ★ Best Match" if i == idx else ""
+                prob_bars_html += (
+                    f'<div class="prob-row">'
+                    f'<div class="prob-header"><span>{s["name"]}{badge}</span><span>{pct}%</span></div>'
+                    f'<div class="prob-track"><div class="prob-fill" style="width:{pct}%;background-color:{bar_color};"></div></div>'
+                    f'</div>'
+                )
+            prob_bars_html += "</div>"
+
+            # Render Species Card + Ecological Impact + Probability Bars in ONE single DOM update
+            st.markdown(
+                f'<div class="species-card"><div>{top_species["svg"]}</div><div><h4>{top_species["name"]}</h4><p><strong>Classification:</strong> {top_species["tag"]}</p><p><strong>Ideal Soil:</strong> {top_species["soil_pref"]}</p></div></div>'
+                f'<p style="margin:0.4rem 0 0.8rem 0;color:#123524;"><strong>🌍 Ecological Impact:</strong> {top_species["benefit"]}</p>'
+                f'<p style="margin:0 0 0.35rem 0;font-weight:700;color:#123524;">📈 Species Probability Distribution (Softmax Output)</p>'
+                f'{prob_bars_html}',
+                unsafe_allow_html=True,
+            )
+
+        with tab_xai:
+            st.write("")
+            st.info(
+                "**Transparent AI Architecture:** Every recommendation is computed live via pre-compiled tensor dot-products (`@tf.function` + `tf.matmul`) and calibrated Softmax."
+            )
+            st.markdown("**1. Normalized 4D Sensor Input Tensor `[0.0 – 1.0]`**")
+            xai_df = pd.DataFrame(
+                {
+                    "Sensor Feature": [
+                        "Soil pH",
+                        "Soil Moisture (%)",
+                        "NPK Index (PPM)",
+                        "Temperature (°C)",
+                    ],
+                    "Raw Field Reading": [soil_ph, moisture, npk, temp],
+                    "Normalized Tensor Value": [round(v, 3) for v in norm_vals],
+                }
+            )
+            st.dataframe(xai_df, use_container_width=True, hide_index=True)
+
+            st.markdown("**2. Layer Logits & Softmax Probability Calibration**")
+            logits_df = pd.DataFrame(
+                {
+                    "Candidate Tree Species": [
+                        s["name"] for s in SPECIES_DATA
+                    ],
+                    "Scaled Logit (X · W × 2.2)": [
+                        round(float(l), 2) for l in raw_logits
+                    ],
+                    "Final Softmax Confidence": [
+                        f"{round(float(p) * 100, 1)}%" for p in probs
+                    ],
+                }
+            )
+            st.dataframe(logits_df, use_container_width=True, hide_index=True)

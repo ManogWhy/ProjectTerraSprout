@@ -7,7 +7,7 @@ import tensorflow as tf
 # 1. Page Configuration
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Project TerraSprout | Team Lemon Tea",
+    page_title="Project TerraSprout | Team Iced Lemon Tea",
     page_icon="🌱",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -610,7 +610,7 @@ st.markdown(
 )
 
 with st.sidebar:
-    st.markdown("### 🍃 Team Lemon Tea")
+    st.markdown("### 🍃 Team Iced Lemon Tea")
     st.caption("2026 Han Chiang High School AI Vanguard Challenge")
     st.divider()
     st.markdown("**🎯 UN SDG Alignment**")

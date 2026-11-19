@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import streamlit as st
 import tensorflow as tf
 
@@ -7,7 +6,7 @@ import tensorflow as tf
 # 1. Page Configuration
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Project TerraSprout | Team Iced Lemon Tea",
+    page_title="Project TerraSprout | Team Lemon Tea",
     page_icon="🌱",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -204,7 +203,7 @@ TF_WEIGHTS = tf.constant(
 def _tf_forward_pass(input_tensor):
     logits = tf.matmul(input_tensor, TF_WEIGHTS) * 2.2
     probs = tf.nn.softmax(logits)
-    return logits, probs
+    return probs
 
 
 def run_tf_inference(ph, moisture, npk, temp):
@@ -213,17 +212,15 @@ def run_tf_inference(ph, moisture, npk, temp):
     norm_npk = (npk - 10) / 290.0
     norm_temp = (temp - 15.0) / 30.0
 
-    norm_values = [norm_ph, norm_moisture, norm_npk, norm_temp]
-    input_tensor = tf.constant([norm_values], dtype=tf.float32)
-
-    logits_tensor, probs_tensor = _tf_forward_pass(input_tensor)
-    probabilities = probs_tensor.numpy()[0]
-    raw_logits = logits_tensor.numpy()[0]
+    input_tensor = tf.constant(
+        [[norm_ph, norm_moisture, norm_npk, norm_temp]], dtype=tf.float32
+    )
+    probabilities = _tf_forward_pass(input_tensor).numpy()[0]
 
     predicted_idx = int(np.argmax(probabilities))
     confidence = float(probabilities[predicted_idx] * 100)
 
-    return predicted_idx, confidence, probabilities, norm_values, raw_logits
+    return predicted_idx, confidence, probabilities
 
 
 # ---------------------------------------------------------
@@ -481,43 +478,36 @@ div[data-baseweb="slider"] [data-testid="stThumbValue"] {
     font-weight: 700 !important;
 }
 
-/* Number Input (Override dark-mode black box with clean light mint input) */
-div[data-baseweb="input"],
-div[data-baseweb="base-input"],
-div[data-testid="stNumberInput"] > div {
+/* Number Input (Force all nested BaseWeb wrappers to light mint) */
+div[data-testid="stNumberInput"] div[data-baseweb="input"],
+div[data-testid="stNumberInput"] div[data-baseweb="base-input"],
+div[data-testid="stNumberInput"] div[data-baseweb="base-input"] > div,
+div[data-testid="stNumberInput"] [class*="InputContainer"] {
     background-color: #F2F9F5 !important;
-    border: 1px solid #95D5B2 !important;
+    background: #F2F9F5 !important;
+    border-color: #95D5B2 !important;
     border-radius: 18px !important;
     color: #123524 !important;
 }
 div[data-testid="stNumberInput"] input {
-    background-color: transparent !important;
+    background-color: #F2F9F5 !important;
+    background: #F2F9F5 !important;
     color: #123524 !important;
     font-weight: 700 !important;
     -webkit-text-fill-color: #123524 !important;
+    caret-color: #123524 !important;
 }
 div[data-testid="stNumberInput"] button {
     background-color: #E4F5E9 !important;
     color: #123524 !important;
     border-left: 1px solid #CBEAD6 !important;
 }
+div[data-testid="stNumberInput"] button:hover {
+    background-color: #D8F3DC !important;
+}
 div[data-testid="stNumberInput"] button svg {
     fill: #123524 !important;
-}
-
-/* Tabs (Replace red underline with forest green) */
-button[data-baseweb="tab"] {
-    border-radius: 999px !important;
-    padding: 0.45rem 1.1rem !important;
-    font-weight: 600 !important;
-    color: #2D6A4F !important;
-}
-button[data-baseweb="tab"][aria-selected="true"] {
     color: #123524 !important;
-    font-weight: 800 !important;
-}
-div[data-baseweb="tab-highlight"] {
-    background-color: #1B4332 !important;
 }
 
 /* Callout Boxes (st.success & st.info soft mint cards) */
@@ -550,7 +540,7 @@ st.markdown(STATIC_CSS, unsafe_allow_html=True)
 # ---------------------------------------------------------
 # 7. Run Instant TensorFlow Inference & Build Synced Layer
 # ---------------------------------------------------------
-idx, confidence, probs, norm_vals, raw_logits = run_tf_inference(
+idx, confidence, probs = run_tf_inference(
     st.session_state.ph,
     st.session_state.moisture,
     st.session_state.npk,
@@ -610,7 +600,7 @@ st.markdown(
 )
 
 with st.sidebar:
-    st.markdown("### 🍃 Team Iced Lemon Tea")
+    st.markdown("### 🍃 Team Lemon Tea")
     st.caption("2026 Han Chiang High School AI Vanguard Challenge")
     st.divider()
     st.markdown("**🎯 UN SDG Alignment**")
@@ -691,81 +681,42 @@ with col_input:
 
 with col_output:
     with st.container(border=True):
+        st.subheader("🌿 Species & Ecological Impact")
+        st.write("")
+
         trees_planted = hectares * 1100
         co2_10yr = round(top_species["co2_per_ha_yr"] * hectares * 10, 1)
 
-        tab_overview, tab_xai = st.tabs(
-            ["🌿 Species & Ecological Impact", "🔍 Explainable AI (Tensor Math)"]
+        m1, m2, m3 = st.columns(3)
+        m1.metric("AI Confidence", f"{confidence:.1f}%", "Optimal Match")
+        m2.metric(
+            "Est. Survival",
+            top_species["survival_rate"],
+            f"{trees_planted:,} Trees",
+        )
+        m3.metric(
+            "10-Yr CO₂ Offset", f"{co2_10yr:,.0f} t", f"{hectares} Hectares"
         )
 
-        with tab_overview:
-            st.write("")
-            m1, m2, m3 = st.columns(3)
-            m1.metric("AI Confidence", f"{confidence:.1f}%", "Optimal Match")
-            m2.metric(
-                "Est. Survival",
-                top_species["survival_rate"],
-                f"{trees_planted:,} Trees",
+        # Build instant GPU-accelerated probability bars synced with the background trees
+        prob_bars_html = '<div class="prob-list">'
+        for i, s in enumerate(SPECIES_DATA):
+            pct = round(float(probs[i]) * 100, 1)
+            bar_color = top_species["tree_color_1"] if i == idx else "#95D5B2"
+            badge = " ★ Best Match" if i == idx else ""
+            prob_bars_html += (
+                f'<div class="prob-row">'
+                f'<div class="prob-header"><span>{s["name"]}{badge}</span><span>{pct}%</span></div>'
+                f'<div class="prob-track"><div class="prob-fill" style="width:{pct}%;background-color:{bar_color};"></div></div>'
+                f'</div>'
             )
-            m3.metric(
-                "10-Yr CO₂ Offset", f"{co2_10yr:,.0f} t", f"{hectares} Hectares"
-            )
+        prob_bars_html += "</div>"
 
-            # Build instant GPU-accelerated probability bars synced with the background trees
-            prob_bars_html = '<div class="prob-list">'
-            for i, s in enumerate(SPECIES_DATA):
-                pct = round(float(probs[i]) * 100, 1)
-                bar_color = top_species["tree_color_1"] if i == idx else "#95D5B2"
-                badge = " ★ Best Match" if i == idx else ""
-                prob_bars_html += (
-                    f'<div class="prob-row">'
-                    f'<div class="prob-header"><span>{s["name"]}{badge}</span><span>{pct}%</span></div>'
-                    f'<div class="prob-track"><div class="prob-fill" style="width:{pct}%;background-color:{bar_color};"></div></div>'
-                    f'</div>'
-                )
-            prob_bars_html += "</div>"
-
-            # Render Species Card + Ecological Impact + Probability Bars in ONE single DOM update
-            st.markdown(
-                f'<div class="species-card"><div>{top_species["svg"]}</div><div><h4>{top_species["name"]}</h4><p><strong>Classification:</strong> {top_species["tag"]}</p><p><strong>Ideal Soil:</strong> {top_species["soil_pref"]}</p></div></div>'
-                f'<p style="margin:0.4rem 0 0.8rem 0;color:#123524;"><strong>🌍 Ecological Impact:</strong> {top_species["benefit"]}</p>'
-                f'<p style="margin:0 0 0.35rem 0;font-weight:700;color:#123524;">📈 Species Probability Distribution (Softmax Output)</p>'
-                f'{prob_bars_html}',
-                unsafe_allow_html=True,
-            )
-
-        with tab_xai:
-            st.write("")
-            st.info(
-                "**Transparent AI Architecture:** Every recommendation is computed live via pre-compiled tensor dot-products (`@tf.function` + `tf.matmul`) and calibrated Softmax."
-            )
-            st.markdown("**1. Normalized 4D Sensor Input Tensor `[0.0 – 1.0]`**")
-            xai_df = pd.DataFrame(
-                {
-                    "Sensor Feature": [
-                        "Soil pH",
-                        "Soil Moisture (%)",
-                        "NPK Index (PPM)",
-                        "Temperature (°C)",
-                    ],
-                    "Raw Field Reading": [soil_ph, moisture, npk, temp],
-                    "Normalized Tensor Value": [round(v, 3) for v in norm_vals],
-                }
-            )
-            st.dataframe(xai_df, use_container_width=True, hide_index=True)
-
-            st.markdown("**2. Layer Logits & Softmax Probability Calibration**")
-            logits_df = pd.DataFrame(
-                {
-                    "Candidate Tree Species": [
-                        s["name"] for s in SPECIES_DATA
-                    ],
-                    "Scaled Logit (X · W × 2.2)": [
-                        round(float(l), 2) for l in raw_logits
-                    ],
-                    "Final Softmax Confidence": [
-                        f"{round(float(p) * 100, 1)}%" for p in probs
-                    ],
-                }
-            )
-            st.dataframe(logits_df, use_container_width=True, hide_index=True)
+        # Render Species Card + Ecological Impact + Probability Bars in ONE single DOM update
+        st.markdown(
+            f'<div class="species-card"><div>{top_species["svg"]}</div><div><h4>{top_species["name"]}</h4><p><strong>Classification:</strong> {top_species["tag"]}</p><p><strong>Ideal Soil:</strong> {top_species["soil_pref"]}</p></div></div>'
+            f'<p style="margin:0.4rem 0 0.8rem 0;color:#123524;"><strong>🌍 Ecological Impact:</strong> {top_species["benefit"]}</p>'
+            f'<p style="margin:0 0 0.35rem 0;font-weight:700;color:#123524;">📈 Species Probability Distribution (Softmax Output)</p>'
+            f'{prob_bars_html}',
+            unsafe_allow_html=True,
+        )
